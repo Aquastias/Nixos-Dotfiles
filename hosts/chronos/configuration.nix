@@ -14,7 +14,7 @@
 sha256= "16zjxysjhk3sgd8b4x5mvx9ilnq35z3zfpkv1la33sqkr8xh1amn";
 		}
 	)}/module.nix"
-	./disk-config-laptop.nix
+	../../disks/disk-config-laptop.nix
     ];
 
   # NixOS commands

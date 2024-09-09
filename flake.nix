@@ -10,10 +10,10 @@
     };
   };
 
-  outputs = { nixpkgs, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       system = "x86_64-linux";
-      host = "eterniox";
+      host = "chronos";
       username = "aquastias";
       pkgs = nixpkgs.legacyPackages.${system};
     in {
@@ -26,7 +26,7 @@
             inherit host;
           };
           modules = [
-            ./configuration.nix
+	    ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
@@ -37,7 +37,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./home.nix;
+              home-manager.users.${username} = import ./hosts/${host}/home.nix;
             }
           ];
 	};
