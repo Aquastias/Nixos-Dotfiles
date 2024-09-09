@@ -8,7 +8,12 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-  	"${builtins.fetchTarball "https://github.com/nix-community/disko/archive/master.tar.gz"}/module.nix"
+  	"${(
+		builtins.fetchTarball {
+			url= "https://github.com/nix-community/disko/archive/master.tar.gz";
+sha256= "16zjxysjhk3sgd8b4x5mvx9ilnq35z3zfpkv1la33sqkr8xh1amn";
+		}
+	)}/module.nix"
 	./disk-config-laptop.nix
     ];
 
@@ -109,7 +114,7 @@
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
-  system.copySystemConfiguration = true;
+  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
