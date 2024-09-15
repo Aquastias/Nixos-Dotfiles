@@ -14,31 +14,41 @@
 sha256= "16zjxysjhk3sgd8b4x5mvx9ilnq35z3zfpkv1la33sqkr8xh1amn";
 		}
 	)}/module.nix"
-	../../disks/disk-config-laptop.nix
+	../common/disks/disk-config-laptop.nix
+	../common/core/nix.nix
+	../common/core/locale.nix
     ];
 
   # NixOS commands
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  #nix = {
+   # settings = {
+    #  experimental-features = [
+     #   "nix-command"
+	#"flakes"
+      #];
+      #warn-dirty = false;
+  #  };
+  #}; 
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostId = "711fbabc";
-  networking.hostName = "eterniox"; # Define your hostname.
+  networking.hostName = "chronos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   # Set your time zone.
-  time.timeZone = "Europe/Bucharest";
+  #time.timeZone = "Europe/Bucharest";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  #i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";

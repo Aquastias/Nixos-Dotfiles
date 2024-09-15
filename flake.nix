@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration of aquastias";
+  description = "Aquastias's Nix-Config";
 
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
@@ -12,32 +12,36 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
-      system = "x86_64-linux";
+      inherit (self) outputs;
+      forAllSystems = nixpkgs.lib.genAttrs [
+	"x86_64-linux"
+      ];
+      inherit (nixpkgs) lib;
       host = "chronos";
-      username = "aquastias";
-      pkgs = nixpkgs.legacyPackages.${system};
+      pkgs = nixpkgs.legacyPackages."x86_64-linux";
+      configVars = import ./vars { inherit inputs lib; };
+      specialArgs = {
+	inherit inputs;
+	inherit outputs;
+	inherit configVars;
+	inherit nixpkgs;
+      };
     in {
+      # Custom modifications/overrides to upstream packages.
+      overlays = import ./overlays { inherit inputs outputs; };
+
       nixosConfigurations = {
         "${host}" = nixpkgs.lib.nixosSystem {
-	  specialArgs = {
-            inherit system;
-            inherit inputs;
-            inherit username;
-            inherit host;
-          };
+	  inherit specialArgs; 
           modules = [
 	    ./hosts/${host}/configuration.nix
             home-manager.nixosModules.home-manager
             {
-              home-manager.extraSpecialArgs = {
-                inherit username;
-                inherit inputs;
-                inherit host;
-              };
+              home-manager.extraSpecialArgs = specialArgs;
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./hosts/${host}/home.nix;
+              home-manager.users.${configVars.username} = import ./hosts/${host}/home.nix;
             }
           ];
 	};

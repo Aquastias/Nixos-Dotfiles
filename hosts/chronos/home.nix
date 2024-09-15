@@ -1,10 +1,10 @@
-{ config, pkgs, ... }:
+{ config, configVars, pkgs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "aquastias";
-  home.homeDirectory = "/home/aquastias";
+  home.username = configVars.username;
+  home.homeDirectory = "/home/${configVars.username}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -78,8 +78,8 @@
   # Git
   programs.git = {
     enable = true;
-    userName = "Aquastias";
-    userEmail = "alexandrumlakar@gmail.com";
+    userName = "${configVars.username}";
+    userEmail = "${configVars.gitHubEmail}";
     extraConfig = {
       init.defaultBranch = "main";
       safe.directory = "/etc/nixos";
