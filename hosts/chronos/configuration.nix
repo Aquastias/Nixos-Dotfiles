@@ -2,21 +2,21 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-  	"${(
-		builtins.fetchTarball {
-			url= "https://github.com/nix-community/disko/archive/master.tar.gz";
-sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
-		}
-	)}/module.nix"
-	../common/disks/disk-config-laptop.nix
-	../common/core/nix.nix
-	../common/core/locale.nix
+      "${(
+        builtins.fetchTarball {
+          url= "https://github.com/nix-community/disko/archive/master.tar.gz";
+          sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
+        }
+       )}/module.nix"
+       ../common/disks/disk-config-laptop.nix
+       ../common/core/nix.nix
+       ../common/core/locale.nix
     ];
 
   # NixOS commands
@@ -62,7 +62,9 @@ sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  
+
+  # For apps that use gnome keyring e.g. VSCode
+  services.gnome.gnome-keyring.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -100,7 +102,10 @@ sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
     vim
     wget
     curl
+    seahorse
+    inputs.oxalica-nil.packages.x86_64-linux.default
   ];
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   #Zram
   zramSwap.enable = true;
@@ -147,6 +152,5 @@ sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
 

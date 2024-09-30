@@ -92,6 +92,18 @@
     package = pkgs.vscodium;
     extensions = with pkgs.vscode-extensions; [
       vscodevim.vim
+      golang.go
+      jnoortheen.nix-ide
     ];
+    enableUpdateCheck = true;
+    userSettings = {
+      "[nix]"."editor.tabSize" = 2;
+      "nix.enableLanguageServer" = true;
+      "nix.serverSettings" = {
+        "nil" = {
+          "formatting" = { "command" = ["nixfmt"]; };
+	};
+      };
+    };
   };
 }
