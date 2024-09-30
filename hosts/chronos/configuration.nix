@@ -11,7 +11,7 @@
   	"${(
 		builtins.fetchTarball {
 			url= "https://github.com/nix-community/disko/archive/master.tar.gz";
-sha256= "16zjxysjhk3sgd8b4x5mvx9ilnq35z3zfpkv1la33sqkr8xh1amn";
+sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
 		}
 	)}/module.nix"
 	../common/disks/disk-config-laptop.nix
