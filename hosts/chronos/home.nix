@@ -1,4 +1,9 @@
-{ config, configVars, pkgs, ... }:
+{
+  config,
+  configVars,
+  pkgs,
+  ...
+}:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
@@ -17,25 +22,11 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    neovim
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
+  home.packages = builtins.attrValues {
+    inherit (pkgs)
+      neovim
+      ;
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -90,20 +81,42 @@
   programs.vscode = {
     enable = true;
     package = pkgs.vscodium;
-    extensions = with pkgs.vscode-extensions; [
-      vscodevim.vim
-      golang.go
-      jnoortheen.nix-ide
-    ];
+    extensions =
+      let
+        vscodeExtensions = pkgs.vscode-extensions;
+      in
+      builtins.attrValues {
+        vim = vscodeExtensions.vscodevim.vim;
+        go = vscodeExtensions.golang.go;
+        nixIde = vscodeExtensions.jnoortheen.nix-ide;
+        formatFiles = vscodeExtensions.jbockle.jbockle-format-files;
+      };
     enableUpdateCheck = true;
     userSettings = {
-      "[nix]"."editor.tabSize" = 2;
+      "[nix]" = {
+        "editor.insertSpaces" = true;
+        "editor.tabSize" = 2;
+      };
       "nix.enableLanguageServer" = true;
       "nix.serverSettings" = {
         "nil" = {
-          "formatting" = { "command" = ["nixfmt"]; };
-	};
+          "formatting" = {
+            "command" = [ "nixfmt" ];
+          };
+        };
       };
+      "nix.formatterPath" = [
+        "nixpkgs-fmt"
+        "nixfmt"
+        "treefmt"
+        "--stdin"
+        "{file}"
+        "nix"
+        "fmt"
+        "--"
+        "-"
+      ];
+      "workbench.sideBar.location" = "right";
     };
   };
 }

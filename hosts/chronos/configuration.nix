@@ -2,33 +2,28 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      "${(
-        builtins.fetchTarball {
-          url= "https://github.com/nix-community/disko/archive/master.tar.gz";
-          sha256= "sha256:1fdqfq4ss3snfbd588dqyfsg7qqlijb4br14jalxxn4x4n083qbg";
-        }
-       )}/module.nix"
-       ../common/disks/disk-config-laptop.nix
-       ../common/core/nix.nix
-       ../common/core/locale.nix
-    ];
-
-  # NixOS commands
-  #nix = {
-   # settings = {
-    #  experimental-features = [
-     #   "nix-command"
-	#"flakes"
-      #];
-      #warn-dirty = false;
-  #  };
-  #}; 
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    "${
+      (builtins.fetchTarball {
+        url = "https://github.com/nix-community/disko/archive/master.tar.gz";
+        sha256 = "sha256:17yc4dvb2ndfz7mzggd23a6400lxplcm187dwyr1gssdb1ykgz70";
+      })
+    }/module.nix"
+    ../common/disks/disk-config-laptop.nix
+    ../common/core/nix.nix
+    ../common/core/locale.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -38,7 +33,7 @@
   networking.hostName = "chronos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   #time.timeZone = "Europe/Bucharest";
@@ -57,7 +52,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
@@ -89,22 +83,27 @@
   users.users.aquastias = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-      tree
-    ];
+    packages = builtins.attrValues {
+      inherit (pkgs)
+        firefox
+        tree
+        ;
+    };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    home-manager
-    vim
-    wget
-    curl
-    seahorse
-    inputs.oxalica-nil.packages.x86_64-linux.default
-  ];
+  environment.systemPackages = builtins.attrValues {
+    inherit (pkgs)
+      home-manager
+      vim
+      wget
+      curl
+      seahorse
+      nil
+      nixfmt-rfc-style
+      ;
+  };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   #Zram
@@ -153,4 +152,3 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
 }
-

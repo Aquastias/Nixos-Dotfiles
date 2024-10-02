@@ -1,4 +1,5 @@
 { inputs, lib }:
+
 {
   username = "aquastias";
   userFullName = "Mlakar Alexandru Laurian";
