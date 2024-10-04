@@ -14,12 +14,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    "${
-      (builtins.fetchTarball {
-        url = "https://github.com/nix-community/disko/archive/master.tar.gz";
-        sha256 = "sha256:17yc4dvb2ndfz7mzggd23a6400lxplcm187dwyr1gssdb1ykgz70";
-      })
-    }/module.nix"
     ../common/disks/disk-config-laptop.nix
     ../common/core/nix.nix
     ../common/core/locale.nix
@@ -83,27 +77,25 @@
   users.users.aquastias = {
     isNormalUser = true;
     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = builtins.attrValues {
-      inherit (pkgs)
-        firefox
-        tree
-        ;
-    };
+    packages = builtins.attrValues { inherit (pkgs) firefox tree; };
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = builtins.attrValues {
-    inherit (pkgs)
-      home-manager
-      vim
-      wget
-      curl
-      seahorse
-      nil
-      nixfmt-rfc-style
-      ;
-  };
+  environment.systemPackages =
+    let
+      packages = pkgs;
+      gnome = pkgs.gnome;
+    in
+    builtins.attrValues {
+      home-manager = packages.home-manager;
+      vim = packages.vim;
+      wget = packages.wget;
+      curl = packages.curl;
+      nil = packages.nil;
+      nixfmt-rfc-style = packages.nixfmt-rfc-style;
+      seahorse = gnome.seahorse;
+    };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   #Zram
