@@ -18,6 +18,7 @@
     ../_common/core/nix.nix
     ../_common/core/locale.nix
     ../_common/core/fonts.nix
+    ../_common/core/audio.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -31,9 +32,6 @@
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   nixpkgs.config.allowUnfree = true;
-
-  # Set your time zone.
-  #time.timeZone = "Europe/Bucharest";
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -63,15 +61,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  hardware.pulseaudio.enable = false;
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
