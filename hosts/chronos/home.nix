@@ -106,13 +106,18 @@
         }
       );
     enableUpdateCheck = false;
+    enableExtensionUpdateCheck = false;
+    keybindings = [
+      {
+        "command" = "toggleVim";
+        "key" = "ctrl+k ctrl+v";
+      }
+    ];
     userSettings = {
       "[nix]" = {
         "editor.defaultFormatter" = "jnoortheen.nix-ide";
-        "editor.tabSize" = 2;
       };
       "[javascript, javascriptreact, typescript, typescriptreact]" = {
-        "editor.tabSize" = 2;
         "editor.codeActionsOnSave" = {
           "source.fixAll.eslint" = true;
         };
@@ -136,9 +141,11 @@
       };
       "editor.formatOnSave" = true;
       "editor.formatOnPaste" = true;
+      "editor.fontLigatures" = true;
       "editor.formatOnType" = false;
       "editor.insertSpaces" = true;
       "editor.semanticHighlighting.enabled" = true;
+      "editor.tabSize" = 2;
       "eslint.rules.customizations" = [
         {
           "rule" = "*";
@@ -148,6 +155,8 @@
       "extensions.experimental.affinity" = {
         "vscodevim.vim" = 1;
       };
+      "files.autoSaveDelay" = 10000;
+      "files.autoSave" = "afterDelay";
       "nix.enableLanguageServer" = true;
       "nix.serverSettings" = {
         "nil" = {
@@ -170,7 +179,30 @@
       "terminal.integrated.minimumContrastRatio" = 1;
       "typescript.tsdk" = "node_modules/typescript/lib";
       "vim.easymotion" = true;
+      "vim.enableNeovim" = true;
       "vim.incsearch" = true;
+      "vim.insertModeKeyBindings" = [
+        {
+          "before" = [
+            "j"
+            "j"
+          ];
+          "after" = [ "<Esc>" ];
+        }
+      ];
+      "vim.normalModeKeyBindings" = [
+        {
+          "before" = [ "<C-n>" ];
+          "commands" = [ ":nohl" ];
+        }
+        {
+          "before" = [
+            "leader"
+            "w"
+          ];
+          "commands" = [ "workbench.action.files.save" ];
+        }
+      ];
       "vim.handleKeys" = {
         "<C-a>" = false;
         "<C-f>" = false;
@@ -179,8 +211,30 @@
       "vim.hlsearch" = true;
       "vim.leader" = "<space>";
       "vim.smartRelativeLine" = true;
+      "vim.surround" = true;
       "vim.useSystemClipboard" = true;
       "vim.useCtrlKeys" = true;
+      "vim.visualModeKeyBindings" = [
+        {
+          "before" = [ ">" ];
+          "commands" = [ "editor.action.indentLines" ];
+        }
+        {
+          "before" = [ "<" ];
+          "commands" = [ "editor.action.outdentLines" ];
+        }
+      ];
+      "vim.visualModeKeyBindingsNonRecursive" = [
+        {
+          "before" = [ "p" ];
+          "after" = [
+            "p"
+            "g"
+            "v"
+            "y"
+          ];
+        }
+      ];
       "window.titleBarStyle" = "custom";
       "workbench.colorTheme" = "Catppuccin Mocha";
       "workbench.iconTheme" = "catppuccin-mocha";
