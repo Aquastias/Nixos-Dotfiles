@@ -16,6 +16,7 @@
     ./hardware-configuration.nix
     ../_common/disks/disk-config-laptop.nix
     ../_common/core/nix.nix
+    ../_common/core/nixpkgs.nix
     ../_common/core/locale.nix
     ../_common/core/fonts.nix
     ../_common/core/audio.nix
@@ -30,8 +31,6 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  nixpkgs.config.allowUnfree = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
