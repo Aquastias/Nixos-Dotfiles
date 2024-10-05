@@ -141,6 +141,8 @@
       };
       "editor.formatOnSave" = true;
       "editor.formatOnPaste" = true;
+      "editor.fontFamily" = "Fira Code";
+      "editor.fontSize" = 12;
       "editor.fontLigatures" = true;
       "editor.formatOnType" = false;
       "editor.insertSpaces" = true;

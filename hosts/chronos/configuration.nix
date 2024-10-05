@@ -14,9 +14,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../common/disks/disk-config-laptop.nix
-    ../common/core/nix.nix
-    ../common/core/locale.nix
+    ../_common/disks/disk-config-laptop.nix
+    ../_common/core/nix.nix
+    ../_common/core/locale.nix
+    ../_common/core/fonts.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -28,6 +29,8 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+
+  nixpkgs.config.allowUnfree = true;
 
   # Set your time zone.
   #time.timeZone = "Europe/Bucharest";

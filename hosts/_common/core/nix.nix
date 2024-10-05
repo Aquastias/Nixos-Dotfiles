@@ -4,6 +4,7 @@
   lib,
   ...
 }:
+
 {
   nix = {
     # This will add each flake input as a registry
