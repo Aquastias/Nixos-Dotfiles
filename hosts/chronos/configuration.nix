@@ -18,16 +18,23 @@
     ../_common/core/fonts.nix
     ../_common/core/audio.nix
 
+    ../_common/core/programs/gnupg.nix
+    ../_common/core/programs/mtr.nix
+
     ../_common/core/services/gnome.nix
     ../_common/core/services/libinput.nix
+    ../_common/core/services/openssh.nix
     ../_common/core/services/printing.nix
     ../_common/core/services/xserver.nix
   ];
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aquastias = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [
+      "wheel" # Enable ‘sudo’ for the user.
+      "gpg" # For GnuPG
+      "scanner" # To be able to see scanner devices
+    ];
     packages = builtins.attrValues { inherit (pkgs) firefox tree; };
   };
 
@@ -48,24 +55,6 @@
       seahorse = gnome.seahorse;
     };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
