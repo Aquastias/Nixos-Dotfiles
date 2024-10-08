@@ -3,8 +3,8 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = configVars.username;
-  home.homeDirectory = "/home/${configVars.username}";
+  home.username = configVars.userName;
+  home.homeDirectory = "/home/${configVars.userName}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -61,7 +61,7 @@
   # Git
   programs.git = {
     enable = true;
-    userName = "${configVars.username}";
+    userName = "${configVars.userName}";
     userEmail = "${configVars.gitHubEmail}";
     extraConfig = {
       init.defaultBranch = "main";
@@ -135,7 +135,7 @@
         };
       };
       "editor.formatOnSave" = true;
-      "editor.formatOnPaste" = true;
+      "editor.formatOnPaste" = false;
       "editor.fontFamily" = "Fira Code";
       "editor.fontSize" = 12;
       "editor.fontLigatures" = true;

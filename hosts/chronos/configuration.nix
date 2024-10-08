@@ -12,15 +12,12 @@
     ../_common/disks/disk-config-laptop.nix
     ../_common/core/nix.nix
     ../_common/core/nixpkgs.nix
+    ../_common/core/boot.nix
     ../_common/core/locale.nix
     ../_common/core/networking.nix
     ../_common/core/fonts.nix
     ../_common/core/audio.nix
   ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -82,12 +79,6 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

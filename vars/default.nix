@@ -1,9 +1,10 @@
 { inputs, lib }:
 
 {
-  username = "aquastias";
-  userFullName = "Mlakar Alexandru Laurian";
-  userEmail = "alexandrumlakar@gmail.com";
+  defaultHost = "chronos";
   gitHubEmail = "alexandrumlakar@gmail.com";
   persistFolder = "/persist";
+  userEmail = "alexandrumlakar@gmail.com";
+  userFullName = "Mlakar Alexandru Laurian";
+  userName = "aquastias";
 }

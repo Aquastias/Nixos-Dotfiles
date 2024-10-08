@@ -28,11 +28,12 @@
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
-      host = "chronos";
+      host = if builtins.hasAttr "host" inputs then inputs.host else configVars.defaultHost;
       configVars = import ./vars { inherit inputs lib; };
       specialArgs = {
         inherit inputs;
         inherit outputs;
+        inherit host;
         inherit configVars;
         inherit nixpkgs;
       };
@@ -53,7 +54,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.users.${configVars.username} = import ./hosts/${host}/home.nix;
+              home-manager.users.${configVars.userName} = import ./hosts/${host}/home.nix;
             }
           ];
         };
