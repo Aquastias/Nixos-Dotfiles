@@ -17,6 +17,7 @@
     ../_common/core/networking.nix
     ../_common/core/fonts.nix
     ../_common/core/audio.nix
+    ../_common/core/environment.nix
 
     ../_common/core/programs/gnupg.nix
     ../_common/core/programs/mtr.nix
@@ -37,24 +38,6 @@
     ];
     packages = builtins.attrValues { inherit (pkgs) firefox tree; };
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages =
-    let
-      packages = pkgs;
-      gnome = pkgs.gnome;
-    in
-    builtins.attrValues {
-      home-manager = packages.home-manager;
-      vim = packages.vim;
-      wget = packages.wget;
-      curl = packages.curl;
-      nil = packages.nil;
-      nixfmt-rfc-style = packages.nixfmt-rfc-style;
-      seahorse = gnome.seahorse;
-    };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
