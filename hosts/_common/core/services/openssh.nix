@@ -5,9 +5,6 @@
     openssh = {
       enable = true;
       extraConfig = ''
-        # Disable password authentication
-        PasswordAuthentication no
-
         # Use only strong ciphers and key exchange algorithms
         Ciphers aes256-ctr,aes192-ctr,aes128-ctr
         KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256
@@ -15,8 +12,11 @@
       '';
       ports = [ 22 ];
       settings = {
+        KbdInteractiveAuthentication = false;
+        PasswordAuthentication = false;
         PermitRootLogin = "no";
       };
+      startWhenNeeded = true;
     };
   };
 }
