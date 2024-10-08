@@ -17,27 +17,12 @@
     ../_common/core/networking.nix
     ../_common/core/fonts.nix
     ../_common/core/audio.nix
+
+    ../_common/core/services/gnome.nix
+    ../_common/core/services/libinput.nix
+    ../_common/core/services/printing.nix
+    ../_common/core/services/xserver.nix
   ];
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # For apps that use gnome keyring e.g. VSCode
-  services.gnome.gnome-keyring.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.aquastias = {
@@ -63,9 +48,6 @@
       seahorse = gnome.seahorse;
     };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
-  #Zram
-  zramSwap.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
