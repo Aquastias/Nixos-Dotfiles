@@ -1,7 +1,8 @@
-{ lib, configVars, ... }:
+{ lib, specialArgs, ... }:
 
 let
-  functions = import [ configVars.functions.path ];
+  # Function to generate a hostId of a specific length (8 characters).
+  generateHostId = import ../../../functions/generateHostId.nix;
 in
 {
   networking = {
@@ -17,9 +18,10 @@ in
         53 # DNS
       ];
     };
-    # hostId = lib.mkDefault (functions.generateHostId { hostName = "chronos"; });
-    hostId = builtins.substring 0 8 (builtins.toString (builtins.hashString "sha256" "chronos"));
-    hostName = lib.mkDefault "chronos";
+    hostId = lib.mkDefault (generateHostId {
+      hostName = specialArgs.host;
+    });
+    hostName = lib.mkDefault specialArgs.host;
     networkmanager = {
       enable = true;
     };
