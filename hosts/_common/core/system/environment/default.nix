@@ -6,16 +6,15 @@
     # $ nix search wget
     systemPackages =
       let
-        packages = pkgs;
         gnome = pkgs.gnome;
       in
       builtins.attrValues {
-        home-manager = packages.home-manager;
-        vim = packages.vim;
-        wget = packages.wget;
-        curl = packages.curl;
-        nil = packages.nil;
-        nixfmt-rfc-style = packages.nixfmt-rfc-style;
+        home-manager = pkgs.home-manager;
+        vim = pkgs.vim;
+        wget = pkgs.wget;
+        curl = pkgs.curl;
+        nil = pkgs.nil;
+        nixfmt-rfc-style = pkgs.nixfmt-rfc-style;
         seahorse = gnome.seahorse;
       };
     sessionVariables = {
