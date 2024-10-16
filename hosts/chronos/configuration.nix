@@ -2,14 +2,14 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ pkgs, configVars, ... }:
+{ ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../_common/disks/disk-config-laptop.nix
+    ../_common/disks/zfs-impermanence-one-nvme.nix
     ../_common/core/nix.nix
     ../_common/core/nixpkgs.nix
     ../_common/core/boot.nix
@@ -27,17 +27,9 @@
     ../_common/core/services/openssh.nix
     ../_common/core/services/printing.nix
     ../_common/core/services/xserver.nix
-  ];
 
-  users.users."${configVars.userName}" = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel" # Enable ‘sudo’ for the user.
-      "gpg" # For GnuPG
-      "scanner" # To be able to see scanner devices
-    ];
-    packages = builtins.attrValues { inherit (pkgs) firefox tree; };
-  };
+    ../../users/users/aquastias
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

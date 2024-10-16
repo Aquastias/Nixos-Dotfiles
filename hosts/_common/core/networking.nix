@@ -1,7 +1,6 @@
 { lib, specialArgs, ... }:
 
 let
-  # Function to generate a hostId of a specific length (8 characters).
   generateHostId = import ../../../functions/generateHostId.nix;
 in
 {
@@ -19,9 +18,9 @@ in
       ];
     };
     hostId = lib.mkDefault (generateHostId {
-      hostName = specialArgs.host;
+      hostName = specialArgs.hostName;
     });
-    hostName = lib.mkDefault specialArgs.host;
+    hostName = lib.mkDefault specialArgs.hostName;
     networkmanager = {
       enable = true;
     };

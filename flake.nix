@@ -28,36 +28,48 @@
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
-      host = if builtins.hasAttr "host" inputs then inputs.host else configVars.defaultHost;
+      system = "x86_64-linux";
       configVars = import ./vars { inherit inputs lib; };
-      specialArgs = {
+      extraSpecialArgs = {
         inherit inputs;
         inherit outputs;
-        inherit host;
         inherit configVars;
         inherit nixpkgs;
+        inherit system;
       };
+      shared-modules = [
+        disko.nixosModules.disko
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.extraSpecialArgs = extraSpecialArgs;
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
+        }
+      ];
     in
     {
       overlays = import ./overlays { inherit inputs outputs; };
 
-      nixosConfigurations = {
-        "${host}" = nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          system = "x86_64-linux";
-          modules = [
-            ./hosts/${host}/configuration.nix
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = specialArgs;
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.users.${configVars.userName} = import ./hosts/${host}/home.nix;
+      # Dynamically generate nixosConfigurations for each host
+      nixosConfigurations =
+        builtins.mapAttrs
+          (
+            host: _:
+            nixpkgs.lib.nixosSystem {
+              specialArgs = {
+                hostName = host;
+              } // extraSpecialArgs;
+              modules = shared-modules ++ [ ./hosts/${host}/configuration.nix ];
             }
-          ];
-        };
-      };
+          )
+          (
+            builtins.listToAttrs (
+              map (host: {
+                name = host;
+                value = null;
+              }) configVars.hosts.names
+            )
+          );
     };
 }

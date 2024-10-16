@@ -1,3 +1,4 @@
+# https://github.com/nix-community/disko-templates/blob/main/zfs-impermanence/disko-config.nix
 {
   disko.devices = {
     disk = {
