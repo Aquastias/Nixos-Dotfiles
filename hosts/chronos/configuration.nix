@@ -7,21 +7,17 @@
 {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware-configuration
 
-    "${configVars.hosts.common.disks}/zfs-impermanence-one-nvme.nix"
+    # Disko layout
+    "${configVars.hosts.common.disks}/zfs/impermanence/nvme/one"
 
     "${configVars.hosts.common.core.mainPathCore}/nix"
     "${configVars.hosts.common.core.mainPathCore}/system"
     "${configVars.hosts.common.core.mainPathCore}/programs"
+    "${configVars.hosts.common.core.mainPathCore}/services"
 
-    "${configVars.hosts.common.core.mainPathCore}/services/gnome.nix"
-    "${configVars.hosts.common.core.mainPathCore}/services/libinput.nix"
-    "${configVars.hosts.common.core.mainPathCore}/services/openssh.nix"
-    "${configVars.hosts.common.core.mainPathCore}/services/printing.nix"
-    "${configVars.hosts.common.core.mainPathCore}/services/xserver.nix"
-
-    ../../users/users/aquastias
+    "${configVars.users.users.path}/aquastias"
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,

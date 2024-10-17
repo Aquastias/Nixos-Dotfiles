@@ -44,5 +44,8 @@
     home = {
       path = ../users/home.nix;
     };
+    users = {
+      path = ../users/users;
+    };
   };
 }
