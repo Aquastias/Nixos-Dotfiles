@@ -1,7 +1,12 @@
-{ lib, specialArgs, ... }:
+{
+  lib,
+  specialArgs,
+  configVars,
+  ...
+}:
 
 let
-  generateHostId = import ../../../functions/generateHostId.nix;
+  generateHostId = import "${configVars.functions.path}/generateHostId.nix";
 in
 {
   networking = {

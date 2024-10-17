@@ -2,31 +2,28 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ ... }:
+{ configVars, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../_common/disks/zfs-impermanence-one-nvme.nix
-    ../_common/core/nix.nix
-    ../_common/core/nixpkgs.nix
-    ../_common/core/boot.nix
-    ../_common/core/locale.nix
-    ../_common/core/networking.nix
-    ../_common/core/fonts.nix
-    ../_common/core/audio.nix
-    ../_common/core/environment.nix
+    "${configVars.hosts.common.disks}/zfs-impermanence-one-nvme.nix"
 
-    ../_common/core/programs/gnupg.nix
-    ../_common/core/programs/mtr.nix
+    "${configVars.hosts.common.core.mainPathCore}/nix.nix"
+    "${configVars.hosts.common.core.mainPathCore}/nixpkgs.nix"
 
-    ../_common/core/services/gnome.nix
-    ../_common/core/services/libinput.nix
-    ../_common/core/services/openssh.nix
-    ../_common/core/services/printing.nix
-    ../_common/core/services/xserver.nix
+    "${configVars.hosts.common.core.mainPathCore}/system"
+
+    "${configVars.hosts.common.core.mainPathCore}/programs/gnupg.nix"
+    "${configVars.hosts.common.core.mainPathCore}/programs/mtr.nix"
+
+    "${configVars.hosts.common.core.mainPathCore}/services/gnome.nix"
+    "${configVars.hosts.common.core.mainPathCore}/services/libinput.nix"
+    "${configVars.hosts.common.core.mainPathCore}/services/openssh.nix"
+    "${configVars.hosts.common.core.mainPathCore}/services/printing.nix"
+    "${configVars.hosts.common.core.mainPathCore}/services/xserver.nix"
 
     ../../users/users/aquastias
   ];

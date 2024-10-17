@@ -32,6 +32,7 @@
             system = "${absoluteMainPathOptional}/system";
           };
       };
+      disks = ../hosts/_common/disks;
     };
     names = [
       "chronos"
