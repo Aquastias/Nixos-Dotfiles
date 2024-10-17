@@ -11,8 +11,7 @@
 
     "${configVars.hosts.common.disks}/zfs-impermanence-one-nvme.nix"
 
-    "${configVars.hosts.common.core.mainPathCore}/nix.nix"
-    "${configVars.hosts.common.core.mainPathCore}/nixpkgs.nix"
+    "${configVars.hosts.common.core.mainPathCore}/nix"
 
     "${configVars.hosts.common.core.mainPathCore}/system"
 
