@@ -12,11 +12,8 @@
     "${configVars.hosts.common.disks}/zfs-impermanence-one-nvme.nix"
 
     "${configVars.hosts.common.core.mainPathCore}/nix"
-
     "${configVars.hosts.common.core.mainPathCore}/system"
-
-    "${configVars.hosts.common.core.mainPathCore}/programs/gnupg.nix"
-    "${configVars.hosts.common.core.mainPathCore}/programs/mtr.nix"
+    "${configVars.hosts.common.core.mainPathCore}/programs"
 
     "${configVars.hosts.common.core.mainPathCore}/services/gnome.nix"
     "${configVars.hosts.common.core.mainPathCore}/services/libinput.nix"
