@@ -17,6 +17,7 @@
   imports = [
     # Core stuff
     "${configVars.hosts.common.core.programs.path}/git"
+    "${configVars.hosts.common.core.programs.path}/firefox"
 
     # Optional stuff
     "${configVars.hosts.common.optional.programs.path}/vscode"
@@ -27,10 +28,5 @@
     home-manager = {
       enable = true;
     };
-
-    firefox = {
-      enable = true;
-    };
-
   };
 }

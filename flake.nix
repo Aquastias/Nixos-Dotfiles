@@ -14,6 +14,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur.url = "github:nix-community/NUR";
   };
 
   outputs =
@@ -23,11 +25,20 @@
       nixpkgs-unstable,
       disko,
       home-manager,
+      nur,
       ...
     }@inputs:
     let
       inherit (self) outputs;
       inherit (nixpkgs) lib;
+
+      pkgs = import inputs.nixpkgs {
+        inherit system;
+
+        config.allowUnfree = true;
+        overlays = import ./overlays { inherit inputs outputs; };
+      };
+
       system = "x86_64-linux";
       configVars = import ./vars { inherit inputs lib; };
       extraSpecialArgs = {
@@ -36,6 +47,10 @@
         inherit configVars;
         inherit nixpkgs;
         inherit system;
+        inherit pkgs;
+        inherit nur;
+
+        firefoxAddons = pkgs.nur.repos.rycee.firefox-addons;
       };
       shared-modules = [
         disko.nixosModules.disko
@@ -49,8 +64,6 @@
       ];
     in
     {
-      overlays = import ./overlays { inherit inputs outputs; };
-
       # Dynamically generate nixosConfigurations for each host
       nixosConfigurations =
         builtins.mapAttrs

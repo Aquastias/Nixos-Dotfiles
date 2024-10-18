@@ -1,4 +1,4 @@
-{ inputs, lib }:
+{ ... }:
 
 {
   # Only primitive values, nothing dynamic.
