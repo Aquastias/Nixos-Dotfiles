@@ -55,6 +55,9 @@
         };
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
+      "[jsonc]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
       "[php]" = {
         "editor.tabSize" = 4;
       };
