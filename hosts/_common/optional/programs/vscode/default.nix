@@ -18,15 +18,22 @@
           gitGraph = vscodeExtensions.mhutchie.git-graph;
           gitHistory = vscodeExtensions.donjayamanne.githistory;
           gitLens = vscodeExtensions.eamodio.gitlens;
+          highlightMatchingTag = vscodeExtensions.vincaslt.highlight-matching-tag;
+          importCost = vscodeExtensions.wix.vscode-import-cost;
+          lua = vscodeExtensions.sumneko.lua;
           markdownAllInOne = vscodeExtensions.yzhang.markdown-all-in-one;
           nixfmt = vscodeExtensions.brettm12345.nixfmt-vscode;
           nixIde = vscodeExtensions.jnoortheen.nix-ide;
+          pdfViewer = vscodeExtensions.tomoki1207.pdf;
           prettier = vscodeExtensions.esbenp.prettier-vscode;
           projectManager = vscodeExtensions.alefragnani.project-manager;
           rust = vscodeExtensions.rust-lang.rust-analyzer;
+          shellCheck = vscodeExtensions.timonwong.shellcheck;
           spellChecker = vscodeExtensions.streetsidesoftware.code-spell-checker;
+          styleLint = vscodeExtensions.stylelint.vscode-stylelint;
           svg = vscodeExtensions.jock.svg;
           vim = vscodeExtensions.vscodevim.vim;
+          yaml = vscodeExtensions.redhat.vscode-yaml;
           zig = vscodeExtensions.ziglang.vscode-zig;
         }
       );
@@ -51,6 +58,10 @@
       "[php]" = {
         "editor.tabSize" = 4;
       };
+      "[yaml]" = {
+        "editor.autoIndent" = "advanced";
+        "diffEditor.ignoreTrimWhitespace" = false;
+      };
       "catppuccin.accentColor" = "mauve";
       "catppuccin.colorOverrides" = {
         "mocha" = {
@@ -64,6 +75,44 @@
           "statusBar.foreground" = "accent";
         };
       };
+      "cSpell.enableFiletypes" = [ "nix" ];
+      "cSpell.userWords" = [
+        "esbenp"
+        "pkgs"
+        "stylelint"
+        "Fira"
+        "jnoortheen"
+        "vscodevim"
+        "nixpkgs"
+        "treefmt"
+        "nixfmt"
+        "easymotion"
+        "Neovim"
+        "incsearch"
+        "hlsearch"
+        "Catppuccin"
+        "builtins"
+        "dbaeumer"
+        "jbockle"
+        "mhutchie"
+        "donjayamanne"
+        "githistory"
+        "eamodio"
+        "vincaslt"
+        "sumneko"
+        "yzhang"
+        "brettm"
+        "tomoki"
+        "alefragnani"
+        "timonwong"
+        "shellcheck"
+        "ziglang"
+        "outdent"
+        "nohl"
+      ];
+      "editor.codeActionsOnSave" = {
+        "source.fixAll.stylelint" = "never";
+      };
       "editor.formatOnSave" = true;
       "editor.formatOnPaste" = false;
       "editor.fontFamily" = "Fira Code";
@@ -71,6 +120,7 @@
       "editor.fontLigatures" = true;
       "editor.formatOnType" = false;
       "editor.insertSpaces" = true;
+      "editor.linkedEditing" = true;
       "editor.semanticHighlighting.enabled" = true;
       "editor.tabSize" = 2;
       "eslint.rules.customizations" = [
@@ -102,6 +152,11 @@
         "fmt"
         "--"
         "-"
+      ];
+      "stylelint.packageManager" = "pnpm";
+      "stylelint.validate" = [
+        "css"
+        "scss"
       ];
       "terminal.integrated.minimumContrastRatio" = 1;
       "typescript.tsdk" = "node_modules/typescript/lib";
@@ -166,6 +221,7 @@
       "workbench.colorTheme" = "Catppuccin Mocha";
       "workbench.iconTheme" = "catppuccin-mocha";
       "workbench.sideBar.location" = "right";
+      "workbench.startupEditor" = "none";
     };
   };
 }
