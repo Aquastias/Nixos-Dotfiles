@@ -1,38 +1,30 @@
 { inputs, lib }:
 
 {
+  # Only primitive values, nothing dynamic.
   functions = {
     path = ../functions;
   };
   hosts = {
     common = {
-      core = rec {
-        mainPathCore = ../hosts/_common/core;
-        path =
-          let
-            absoluteMainPathCore = builtins.path mainPathCore;
-          in
-          {
-            nix = "${absoluteMainPathCore}/nix";
-            programs = "${absoluteMainPathCore}/programs";
-            services = "${absoluteMainPathCore}/services";
-            system = "${absoluteMainPathCore}/system";
-          };
+      core = {
+        path = ../hosts/_common/core;
+        nix.path = ../hosts/_common/core/nix;
+        programs.path = ../hosts/_common/core/programs;
+        services.path = ../hosts/_common/core/services;
+        system.path = ../hosts/_common/core/system;
       };
-      optional = rec {
-        mainPathOptional = ../hosts/_common/optional;
-        path =
-          let
-            absoluteMainPathOptional = builtins.path mainPathOptional;
-          in
-          {
-            nix = "${absoluteMainPathOptional}/nix";
-            programs = "${absoluteMainPathOptional}/programs";
-            services = "${absoluteMainPathOptional}/services";
-            system = "${absoluteMainPathOptional}/system";
-          };
+      optional = {
+        path = ../hosts/_common/optional;
+        nix.path = ../hosts/_common/optional/nix;
+        programs.path = ../hosts/_common/optional/programs;
+        services.path = ../hosts/_common/optional/services;
+        system.path = ../hosts/_common/optional/system;
+
       };
-      disks = ../hosts/_common/disks;
+      disks = {
+        path = ../hosts/_common/disks;
+      };
     };
     names = [
       "chronos"

@@ -18,10 +18,7 @@ in
 
   home-manager = {
     users."${userName}" = {
-      imports = [
-        configVars.users.home.path
-        # "${configVars.hosts.common.optional.path.programs}/vscode"
-      ];
+      imports = [ configVars.users.home.path ];
 
       home = {
         username = userName;
@@ -31,6 +28,10 @@ in
       programs = {
         git = {
           inherit userEmail userName;
+        };
+
+        vscode = {
+          enable = true;
         };
       };
     };

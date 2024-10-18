@@ -7,16 +7,18 @@
 {
   imports = [
     # Include the results of the hardware scan.
-    ./hardware-configuration
+    ./hardware
 
     # Disko layout
-    "${configVars.hosts.common.disks}/zfs/impermanence/nvme/one"
+    "${configVars.hosts.common.disks.path}/zfs/impermanence/nvme/one"
 
-    "${configVars.hosts.common.core.mainPathCore}/nix"
-    "${configVars.hosts.common.core.mainPathCore}/system"
-    "${configVars.hosts.common.core.mainPathCore}/programs"
-    "${configVars.hosts.common.core.mainPathCore}/services"
+    # Common core stuff
+    "${configVars.hosts.common.core.nix.path}"
+    "${configVars.hosts.common.core.programs.path}"
+    "${configVars.hosts.common.core.services.path}"
+    "${configVars.hosts.common.core.system.path}"
 
+    # Users 
     "${configVars.users.users.path}/aquastias"
   ];
 
