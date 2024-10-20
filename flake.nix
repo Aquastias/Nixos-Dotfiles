@@ -15,6 +15,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    arkenfox = {
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nur.url = "github:nix-community/NUR";
   };
 
@@ -25,6 +30,7 @@
       nixpkgs-unstable,
       disko,
       home-manager,
+      arkenfox,
       nur,
       ...
     }@inputs:
@@ -57,6 +63,7 @@
         home-manager.nixosModules.home-manager
         {
           home-manager.extraSpecialArgs = extraSpecialArgs;
+          home-manager.sharedModules = [ arkenfox.hmModules.default ];
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";

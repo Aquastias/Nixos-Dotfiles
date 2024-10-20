@@ -13,7 +13,7 @@ in
       "gpg" # For GnuPG
       "scanner" # To be able to see scanner devices
     ];
-    packages = builtins.attrValues { inherit (pkgs) firefox tree; };
+    packages = builtins.attrValues { inherit (pkgs) tree; };
   };
 
   home-manager = {

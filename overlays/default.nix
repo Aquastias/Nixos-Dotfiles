@@ -30,5 +30,6 @@ let
 in
 [
   unstable-packages
+  inputs.arkenfox.overlays.default
   nur.overlay
 ]
