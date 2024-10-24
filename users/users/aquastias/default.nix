@@ -1,8 +1,4 @@
-{
-  pkgs,
-  configVars,
-  ...
-}: let
+{configVars, ...}: let
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
@@ -14,7 +10,6 @@ in {
       "gpg" # For GnuPG
       "scanner" # To be able to see scanner devices
     ];
-    packages = builtins.attrValues {inherit (pkgs) tree;};
   };
 
   home-manager = {

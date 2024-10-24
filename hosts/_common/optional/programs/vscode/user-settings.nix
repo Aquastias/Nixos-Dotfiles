@@ -89,7 +89,7 @@
         };
       };
       "nixpkgs" = {
-        "expr" = "import nixpkgs { }";
+        "expr" = "import (builtins.getFlake \"${flake.path}\").inputs.nixpkgs { }";
       };
     };
     "stylelint.packageManager" = "pnpm";
