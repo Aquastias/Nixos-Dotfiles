@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   zramSwap = {
     algorithm = "zstd";
     enable = true;

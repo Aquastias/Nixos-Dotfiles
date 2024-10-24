@@ -1,6 +1,4 @@
-{ configVars, ... }:
-
-{
+{configVars, ...}: {
   home = {
     enableNixpkgsReleaseCheck = false;
 

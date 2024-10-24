@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   services = {
     xserver = {
       desktopManager = {

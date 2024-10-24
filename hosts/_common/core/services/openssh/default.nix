@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   services = {
     openssh = {
       enable = true;
@@ -10,7 +8,7 @@
         KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256
         MACs hmac-sha2-256,hmac-sha2-512
       '';
-      ports = [ 22 ];
+      ports = [22];
       settings = {
         KbdInteractiveAuthentication = false;
         PasswordAuthentication = false;

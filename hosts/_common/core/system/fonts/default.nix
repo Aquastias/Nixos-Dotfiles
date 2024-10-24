@@ -1,11 +1,10 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   fonts = {
     enableGhostscriptFonts = true;
     fontDir.enable = true;
     packages = builtins.attrValues {
-      inherit (pkgs)
+      inherit
+        (pkgs)
         corefonts
         cascadia-code
         inconsolata

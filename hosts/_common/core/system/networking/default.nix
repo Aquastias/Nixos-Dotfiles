@@ -3,12 +3,9 @@
   specialArgs,
   configVars,
   ...
-}:
-
-let
+}: let
   generateHostId = import "${configVars.functions.path}/generateHostId.nix";
-in
-{
+in {
   networking = {
     firewall = {
       enable = true;

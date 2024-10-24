@@ -1,7 +1,8 @@
-{ ... }:
-
-{
+{...}: {
   # Only primitive values, nothing dynamic.
+  flake = {
+    path = ../flake.nix;
+  };
   functions = {
     path = ../functions;
   };
@@ -20,7 +21,6 @@
         programs.path = ../hosts/_common/optional/programs;
         services.path = ../hosts/_common/optional/services;
         system.path = ../hosts/_common/optional/system;
-
       };
       disks = {
         path = ../hosts/_common/disks;

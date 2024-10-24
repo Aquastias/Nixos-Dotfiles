@@ -1,10 +1,11 @@
-{ pkgs, configVars, ... }:
-
-let
+{
+  pkgs,
+  configVars,
+  ...
+}: let
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
-in
-{
+in {
   users.users."${userName}" = {
     isNormalUser = true;
     description = "Mlakar Alexandru Laurian";
@@ -13,12 +14,12 @@ in
       "gpg" # For GnuPG
       "scanner" # To be able to see scanner devices
     ];
-    packages = builtins.attrValues { inherit (pkgs) tree; };
+    packages = builtins.attrValues {inherit (pkgs) tree;};
   };
 
   home-manager = {
     users."${userName}" = {
-      imports = [ configVars.users.home.path ];
+      imports = [configVars.users.home.path];
 
       home = {
         username = userName;

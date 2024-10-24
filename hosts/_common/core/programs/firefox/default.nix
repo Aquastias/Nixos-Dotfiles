@@ -4,18 +4,15 @@
   specialArgs,
   config,
   ...
-}:
-
-let
+}: let
   inherit (specialArgs) firefoxAddons;
-in
-{
+in {
   programs.firefox = {
     # https://gitlab.com/engmark/root/-/blob/60468eb82572d9a663b58498ce08fafbe545b808/configuration.nix#L293-310
     # https://github.com/Kreyren/nixos-config/blob/bd4765eb802a0371de7291980ce999ccff59d619/nixos/users/kreyren/home/modules/web-browsers/firefox/firefox.nix
-    # https://github.com/gvolpe/nix-config/blob/6feb7e4f47e74a8e3befd2efb423d9232f522ccd/home/programs/browsers/firefox.nix 
+    # https://github.com/gvolpe/nix-config/blob/6feb7e4f47e74a8e3befd2efb423d9232f522ccd/home/programs/browsers/firefox.nix
     enable = true;
-    languagePacks = [ "en-US" ];
+    languagePacks = ["en-US"];
     package = pkgs.firefox;
     # Refer to https://mozilla.github.io/policy-templates or `about:policies#documentation` in firefox
     policies = {
@@ -144,9 +141,9 @@ in
       #   ShowBlockedResult = false;
       # }; # Configure Firefox to use an agent for Data Loss Prevention (DLP) that is compatible with the Google Chrome Content Analysis Connector Agent SDK.
       Cookies = {
-        Allow = [ ];
-        AllowSession = [ ];
-        Block = [ ];
+        Allow = [];
+        AllowSession = [];
+        Block = [];
         Locked = false;
         Behavior = "reject-tracker"; # "accept" | "reject-foreign" | "reject" | "limit-foreign" | "reject-tracker" | "reject-tracker-and-partition-foreign"
         BehaviorPrivateBrowsing = "reject-tracker-and-partition-foreign";
@@ -207,24 +204,22 @@ in
       #     domains = [ "example.com" ];
       #   }
       # ]; # Disable warnings based on file extension for specific file types on domains.
-      ExtensionSettings =
-        with builtins;
-        let
-          blockedExtension = {
-            name = "*";
-            value = {
-              installation_mode = "blocked"; # allowed" | "blocked" | "force_installed" | "normal_installed".
-              blocked_install_message = "Extension blocked!";
-            };
+      ExtensionSettings = with builtins; let
+        blockedExtension = {
+          name = "*";
+          value = {
+            installation_mode = "blocked"; # allowed" | "blocked" | "force_installed" | "normal_installed".
+            blocked_install_message = "Extension blocked!";
           };
-          extension = shortId: uuid: {
-            name = uuid;
-            value = {
-              install_url = "https://addons.mozilla.org/en-US/firefox/downloads/latest/${shortId}/latest.xpi";
-              installation_mode = "normal_installed";
-            };
+        };
+        extension = shortId: uuid: {
+          name = uuid;
+          value = {
+            install_url = "https://addons.mozilla.org/en-US/firefox/downloads/latest/${shortId}/latest.xpi";
+            installation_mode = "normal_installed";
           };
-        in
+        };
+      in
         listToAttrs [
           # Check about:support for extension/add-on ID strings.
           blockedExtension
@@ -274,7 +269,7 @@ in
         };
         schemes = {
           mailto = {
-            handlers = [ null ];
+            handlers = [null];
           };
         };
       }; # Configure default application handlers.
@@ -282,20 +277,20 @@ in
       Homepage = {
         URL = "https://searx.work";
         Locked = true;
-        Additional = [ ];
+        Additional = [];
         StartPage = "homepage"; # Change to "homepage", "previous-session", or "homepage-locked" as needed
       }; # Configure the default homepage and how Firefox starts.
-      HttpAllowlist = [ "http://localhost:3000" ]; # Configure origins that will not be upgraded to HTTPS.
+      HttpAllowlist = ["http://localhost:3000"]; # Configure origins that will not be upgraded to HTTPS.
       HttpsOnlyMode = "force_enabled"; # Configure HTTPS-Only Mode. "allowed" | "disallowed" | "enabled" | "force_enabled"
       InstallAddonsPermission = {
-        Allow = [ ];
+        Allow = [];
         Default = false;
       }; # Configure the default extension install policy as well as origins for extension installs are allowed.
       LegacyProfiles = false; # Disable the feature enforcing a separate profile for each installation.
       LegacySameSiteCookieBehaviorEnabled = false; # Enable default legacy SameSite cookie behavior setting.
-      LegacySameSiteCookieBehaviorEnabledForDomainList = [ ]; # Revert to legacy SameSite behavior for cookies on specified sites.
-      LocalFileLinks = [ ]; # Enable linking to local files by origin.
-      ManagedBookmarks = [ ]; # Configures a list of bookmarks managed by an administrator that cannot be changed by the user.
+      LegacySameSiteCookieBehaviorEnabledForDomainList = []; # Revert to legacy SameSite behavior for cookies on specified sites.
+      LocalFileLinks = []; # Enable linking to local files by origin.
+      ManagedBookmarks = []; # Configures a list of bookmarks managed by an administrator that cannot be changed by the user.
       ManualAppUpdateOnly = false; # Allow manual updates only and do not notify the user about updates.
       NetworkPrediction = true; # Enable or disable network prediction (DNS prefetching).
       NewTabPage = true; # Enable or disable the New Tab page.
@@ -305,39 +300,39 @@ in
       OverrideFirstRunPage = ""; # Override the first run page.
       OverridePostUpdatePage = ""; # Override the upgrade page.
       PasswordManagerEnabled = false; # Remove (some) access to the password manager.
-      PasswordManagerExceptions = [ ]; # Prevent Firefox from saving passwords for specific sites.
+      PasswordManagerExceptions = []; # Prevent Firefox from saving passwords for specific sites.
       PDFjs = {
         Enabled = false;
         EnablePermissions = false;
       }; # Disable or configure PDF.js, the built-in PDF viewer.
       Permissions = {
         Camera = {
-          Allow = [ ];
-          Block = [ ];
+          Allow = [];
+          Block = [];
           BlockNewRequests = true;
           Locked = true;
         };
         Microphone = {
-          Allow = [ ];
-          Block = [ ];
+          Allow = [];
+          Block = [];
           BlockNewRequests = true;
           Locked = true;
         };
         Location = {
-          Allow = [ ];
-          Block = [ ];
+          Allow = [];
+          Block = [];
           BlockNewRequests = true;
           Locked = true;
         };
         Notifications = {
-          Allow = [ ];
-          Block = [ ];
+          Allow = [];
+          Block = [];
           BlockNewRequests = true;
           Locked = true;
         };
         Autoplay = {
-          Allow = [ ];
-          Block = [ ];
+          Allow = [];
+          Block = [];
           Default = "allow-audio-video"; # Change to "block-audio" or "block-audio-video" as needed
           Locked = true;
         };
@@ -347,12 +342,12 @@ in
         Locked = true;
       }; # Enable or disable Picture-in-Picture.
       PopupBlocking = {
-        Allow = [ ];
+        Allow = [];
         Default = false;
         Locked = true;
       }; # Configure the default pop-up window policy as well as origins for which pop-up windows are allowed.
       PostQuantumKeyAgreementEnabled = true; # Enable post-quantum key agreement for TLS.
-      Preferences = { }; # Set and lock preferences.
+      Preferences = {}; # Set and lock preferences.
       PrimaryPassword = false; # Require or prevent using a primary (formerly master) password.
       PrintingEnabled = true; # Enable or disable printing.
       PrivateBrowsingModeAvailability = 0; # Set availability of private browsing mode. 0 - available, 1 - not available, 2 - forced
@@ -371,7 +366,7 @@ in
         # AutoLogin = true;
         UseProxyForDNS = true;
       }; # Configure proxy settings.
-      RequestedLocales = [ "en-US" ]; # Set the the list of requested locales for the application in order of preference.
+      RequestedLocales = ["en-US"]; # Set the the list of requested locales for the application in order of preference.
       SanitizeOnShutdown = {
         Cache = true;
         Cookies = false;
@@ -425,8 +420,8 @@ in
       }; # Don’t show certain messages to the user.
       UseSystemPrintDialog = true; # Print using the system print dialog instead of print preview.
       WebsiteFilter = {
-        Block = [ ];
-        Exceptions = [ ];
+        Block = [];
+        Exceptions = [];
       }; # Block websites from being visited.
       WindowsSSO = false; # Allow Windows single sign-on for Microsoft, work, and school accounts.
     };
@@ -577,18 +572,18 @@ in
                 }
               ];
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = [ "@np" ];
+              definedAliases = ["@np"];
             };
             "NixOS Wiki" = {
-              urls = [ { template = "https://nixos.wiki/index.php?search={searchTerms}"; } ];
+              urls = [{template = "https://nixos.wiki/index.php?search={searchTerms}";}];
               iconUpdateURL = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000;
-              definedAliases = [ "@nw" ];
+              definedAliases = ["@nw"];
             };
             "GitHub" = {
               iconUpdateURL = "https://github.com/favicon.ico";
               updateInterval = 24 * 60 * 60 * 1000;
-              definedAliases = [ "@gh" ];
+              definedAliases = ["@gh"];
               urls = [
                 {
                   template = "https://github.com/search";
@@ -603,7 +598,7 @@ in
             };
             "Home Manager" = {
               icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-              definedAliases = [ "@hm" ];
+              definedAliases = ["@hm"];
               url = [
                 {
                   template = "https://mipmip.github.io/home-manager-option-search/";
@@ -617,15 +612,15 @@ in
               ];
             };
             "Searx" = {
-              urls = [ { template = "https://searx.work/?q={searchTerms}"; } ];
+              urls = [{template = "https://searx.work/?q={searchTerms}";}];
               iconUpdateURL = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000;
-              definedAliases = [ "@searx" ];
+              definedAliases = ["@searx"];
             };
             "YouTube" = {
               iconUpdateURL = "https://youtube.com/favicon.ico";
               updateInterval = 24 * 60 * 60 * 1000;
-              definedAliases = [ "@yt" ];
+              definedAliases = ["@yt"];
               urls = [
                 {
                   template = "https://www.youtube.com/results";
