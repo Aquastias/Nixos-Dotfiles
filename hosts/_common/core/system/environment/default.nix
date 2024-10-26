@@ -8,6 +8,8 @@
       alejandra
       curl
       nixd
+      openssl
+      sbctl
       tree
       vim
       wget

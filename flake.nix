@@ -4,6 +4,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nur.url = "github:nix-community/NUR";
+
+    arkenfox = {
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko";
@@ -15,12 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    arkenfox = {
-      url = "github:dwarfmaster/arkenfox-nixos";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nur.url = "github:nix-community/NUR";
   };
 
   outputs = {
@@ -30,6 +34,7 @@
     home-manager,
     arkenfox,
     nur,
+    lanzaboote,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -57,6 +62,7 @@
     };
     shared-modules = host: [
       disko.nixosModules.disko
+      lanzaboote.nixosModules.lanzaboote
       home-manager.nixosModules.home-manager
       {
         home-manager.extraSpecialArgs =
