@@ -16,5 +16,23 @@
   {
     "name": "NixOS Homepage",
     "url": "https://nixos.org/learn/"
+  },
+
+  {
+    "name": "Mozilla links",
+    "children": [
+      {
+        "url": "https://mozilla.org",
+        "name": "Mozilla.org"
+      },
+      {
+        "url": "https://support.mozilla.org/",
+        "name": "Support"
+      },
+      {
+        "url": "about:about",
+        "name": "About links"
+      }
+    ]
   }
 ]
