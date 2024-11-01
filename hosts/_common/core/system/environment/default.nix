@@ -7,7 +7,10 @@
 
       alejandra
       curl
+      nh
       nixd
+      nix-output-monitor
+      nvd
       openssl
       sbctl
       tree
@@ -17,6 +20,7 @@
       gnome.seahorse
     ];
     sessionVariables = {
+      FLAKE = "/etc/nixos";
       NIXOS_OZONE_WL = "1";
     };
   };
