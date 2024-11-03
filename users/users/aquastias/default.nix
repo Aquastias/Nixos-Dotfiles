@@ -6,9 +6,10 @@ in {
     isNormalUser = true;
     description = "Mlakar Alexandru Laurian";
     extraGroups = [
-      "wheel" # Enable ‘sudo’ for the user.
+      "audio"
       "gpg" # For GnuPG
       "scanner" # To be able to see scanner devices
+      "wheel" # Enable ‘sudo’ for the user.
     ];
   };
 
