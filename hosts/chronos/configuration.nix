@@ -9,6 +9,9 @@
     # Disko layout
     "${configVars.hosts.common.disks.path}/zfs/impermanence/nvme/one"
 
+    # SOPS
+    "${configVars.hosts.common.core.path}/sops"
+
     # Common core stuff
     "${configVars.hosts.common.core.nix.path}"
     "${configVars.hosts.common.core.programs.path}"

@@ -40,4 +40,7 @@
       path = ../users/users;
     };
   };
+  secrets = {
+    path = ../secrets;
+  };
 }
