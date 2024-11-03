@@ -7,6 +7,7 @@
 
       alejandra
       curl
+      libbs2b
       nh
       nixd
       nix-output-monitor

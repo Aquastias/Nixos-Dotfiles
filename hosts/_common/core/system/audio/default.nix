@@ -3,6 +3,14 @@
   hardware = {
     pulseaudio = {
       enable = lib.mkForce true;
+      extraConfig = ''
+        load-module module-ladspa-sink
+        sink_name=binaural
+        master=bluez_sink.AA_BB_CC_DD_EE_FF.a2dp_sink
+        plugin=bs2b
+        label=bs2b
+        control=700,4.5
+      '';
       support32Bit = true;
     };
   };
@@ -40,6 +48,6 @@
 
   # ALSA
   sound = {
-    enable = true;
+    enable = lib.mkDefault true;
   };
 }
