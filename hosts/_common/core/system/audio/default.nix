@@ -2,7 +2,7 @@
   # PulseAudio
   hardware = {
     pulseaudio = {
-      enable = lib.mkForce true;
+      enable = lib.mkForce false;
       extraConfig = ''
         load-module module-ladspa-sink
         sink_name=binaural
@@ -18,7 +18,29 @@
   # Pipewire
   security.rtkit.enable = true;
   services.pipewire = {
-    enable = lib.mkForce false;
+    enable = lib.mkForce true;
+    extraConfig = {
+      pipewire-pulse = {
+        "92-low-latency" = {
+          context.modules = [
+            {
+              name = "libpipewire-module-protocol-pulse";
+              args = {
+                pulse.min.req = "32/48000";
+                pulse.default.req = "32/48000";
+                pulse.max.req = "32/48000";
+                pulse.min.quantum = "32/48000";
+                pulse.max.quantum = "32/48000";
+              };
+            }
+          ];
+          stream.properties = {
+            node.latency = "32/48000";
+            resample.quality = 1;
+          };
+        };
+      };
+    };
     alsa = {
       enable = true;
       support32Bit = true;
@@ -30,7 +52,7 @@
       enable = true;
     };
     socketActivation = true;
-    systemWide = true;
+    systemWide = false;
     wireplumber = {
       enable = true;
       extraConfig = {
