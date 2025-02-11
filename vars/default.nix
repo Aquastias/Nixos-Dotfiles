@@ -6,6 +6,14 @@
   functions = {
     path = ../functions;
   };
+  entities = {
+    home = {
+      path = ../entities/home.nix;
+    };
+    users = {
+      path = ../entities/users;
+    };
+  };
   hosts = {
     common = {
       core = {
@@ -22,25 +30,12 @@
         services.path = ../hosts/_common/optional/services;
         system.path = ../hosts/_common/optional/system;
       };
-      disks = {
-        path = ../hosts/_common/disks;
-      };
     };
     names = [
       "chronos"
       "eterniox"
+      "vanguard"
     ];
   };
   persistFolder = "/persist";
-  users = {
-    home = {
-      path = ../users/home.nix;
-    };
-    users = {
-      path = ../users/users;
-    };
-  };
-  secrets = {
-    path = ../secrets;
-  };
 }

@@ -14,6 +14,7 @@
 
     # Users
     "${configVars.entities.users.path}/aquastias"
+    "${configVars.entities.users.path}/spark"
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,

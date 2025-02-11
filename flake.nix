@@ -2,7 +2,7 @@
   description = "Aquastias's Nix-Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
 
@@ -11,23 +11,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     home-manager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -35,12 +20,9 @@
   outputs = {
     self,
     nixpkgs,
-    disko,
     home-manager,
     arkenfox,
     nur,
-    lanzaboote,
-    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -67,9 +49,6 @@
       firefoxAddons = pkgs.nur.repos.rycee.firefox-addons;
     };
     shared-modules = host: [
-      disko.nixosModules.disko
-      lanzaboote.nixosModules.lanzaboote
-      sops-nix.nixosModules.sops
       home-manager.nixosModules.home-manager
       {
         home-manager.extraSpecialArgs =

@@ -67,9 +67,4 @@
       };
     };
   };
-
-  # ALSA
-  sound = {
-    enable = lib.mkDefault true;
-  };
 }

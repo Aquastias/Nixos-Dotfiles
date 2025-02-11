@@ -17,8 +17,7 @@
       tree
       vim
       wget
-
-      gnome.seahorse
+      seahorse
     ];
     sessionVariables = {
       FLAKE = "/etc/nixos";
