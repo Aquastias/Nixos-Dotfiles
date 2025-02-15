@@ -5,6 +5,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware
+    ./disko-config.nix
 
     # Common core stuff
     "${configVars.hosts.common.core.nix.path}"

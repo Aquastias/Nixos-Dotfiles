@@ -4,10 +4,16 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+
     nur.url = "github:nix-community/NUR";
 
     arkenfox = {
       url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    disko = {
+      url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -23,6 +29,7 @@
     home-manager,
     arkenfox,
     nur,
+    disko,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -49,14 +56,15 @@
       firefoxAddons = pkgs.nur.repos.rycee.firefox-addons;
     };
     shared-modules = host: [
-      home-manager.nixosModules.home-manager
+      inputs.disko.nixosModules.disko
+      inputs.home-manager.nixosModules.home-manager
       {
         home-manager.extraSpecialArgs =
           {
             hostName = host;
           }
           // extraSpecialArgs;
-        home-manager.sharedModules = [arkenfox.hmModules.default];
+        home-manager.sharedModules = [inputs.arkenfox.hmModules.default];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "backup";
