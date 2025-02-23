@@ -3,14 +3,6 @@
     bootspec = {
       enable = true;
     };
-    loader = {
-      efi = {
-        canTouchEfiVariables = true;
-      };
-      systemd-boot = {
-        enable = lib.mkForce true;
-      };
-    };
     initrd = {
       postDeviceCommands = lib.mkAfter ''
         # Create snapshot of the root dataset
@@ -28,6 +20,17 @@
           fi
         done
       '';
+    };
+    loader = {
+      efi = {
+        canTouchEfiVariables = true;
+      };
+      systemd-boot = {
+        enable = lib.mkForce true;
+      };
+    };
+    zfs = {
+      devNodes = "/dev/disk/by-partuuid";
     };
   };
 }
