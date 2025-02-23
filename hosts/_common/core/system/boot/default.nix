@@ -12,7 +12,7 @@
       };
     };
     initrd = {
-      postDeviceCommands = ''
+      postDeviceCommands = lib.mkAfter ''
         # Create snapshot of the root dataset
         timestamp=$(date "+%Y-%m-%-d_%H:%M:%S")
         zfs snapshot zroot/local/root@"$timestamp"
