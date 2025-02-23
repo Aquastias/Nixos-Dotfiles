@@ -38,4 +38,5 @@
     ];
   };
   persistFolder = "/persist";
+  version = "24.11";
 }

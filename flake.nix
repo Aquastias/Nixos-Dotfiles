@@ -1,8 +1,11 @@
 {
   description = "Aquastias's Nix-Config";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
+  inputs = let
+    configVarsFile = import ./vars;
+    nixosVersion = configVarsFile.version;
+  in {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-${nixosVersion}";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nur.url = "github:nix-community/NUR";
@@ -19,6 +22,11 @@
 
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    impermanence = {
+      url = "github:nix-community/impermanence";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -57,6 +65,7 @@
     };
     shared-modules = host: [
       inputs.disko.nixosModules.disko
+      inputs.impermanence.nixosModules.impermanence
       inputs.home-manager.nixosModules.home-manager
       {
         home-manager.extraSpecialArgs =
