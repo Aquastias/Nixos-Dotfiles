@@ -35,6 +35,7 @@
     arkenfox,
     nur,
     disko,
+    impermanence,
     ...
   } @ inputs: let
     inherit (self) outputs;
