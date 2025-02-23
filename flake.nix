@@ -2,7 +2,7 @@
   description = "Aquastias's Nix-Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-stable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nur.url = "github:nix-community/NUR";
@@ -41,22 +41,15 @@
     inherit (nixpkgs) lib;
 
     configVars = import ./vars {inherit inputs lib;};
-    nixosVersion = configVars.version; # Extract version
-    updatedNixpkgs = inputs.nixpkgs.overrideAttrs {
-      src = builtins.fetchGit {
-        url = "github:nixos/nixpkgs/nixos-${nixosVersion}";
-        ref = "nixos-${nixosVersion}";
-      };
-    };
+    system = "${configVars.system}";
 
-    pkgs = import updatedNixpkgs {
+    pkgs = import inputs.nixpkgs {
       inherit system;
 
       config.allowUnfree = true;
       overlays = import ./overlays {inherit inputs outputs;};
     };
 
-    system = "x86_64-linux";
     extraSpecialArgs = {
       inherit inputs;
       inherit outputs;
@@ -68,6 +61,7 @@
 
       firefoxAddons = pkgs.nur.repos.rycee.firefox-addons;
     };
+
     shared-modules = host: [
       inputs.disko.nixosModules.disko
       inputs.impermanence.nixosModules.impermanence

@@ -38,5 +38,6 @@
     ];
   };
   persistFolder = "/persist";
+  system = "x86_64-linux";
   version = "24.11";
 }
