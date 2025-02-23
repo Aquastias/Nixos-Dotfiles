@@ -1,11 +1,8 @@
 {
   description = "Aquastias's Nix-Config";
 
-  inputs = let
-    configVarsFile = import ./vars;
-    nixosVersion = configVarsFile.version;
-  in {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-${nixosVersion}";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-stable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nur.url = "github:nix-community/NUR";
@@ -43,7 +40,16 @@
     inherit (self) outputs;
     inherit (nixpkgs) lib;
 
-    pkgs = import inputs.nixpkgs {
+    configVars = import ./vars {inherit inputs lib;};
+    nixosVersion = configVars.version; # Extract version
+    updatedNixpkgs = inputs.nixpkgs.overrideAttrs {
+      src = builtins.fetchGit {
+        url = "github:nixos/nixpkgs/nixos-${nixosVersion}";
+        ref = "nixos-${nixosVersion}";
+      };
+    };
+
+    pkgs = import updatedNixpkgs {
       inherit system;
 
       config.allowUnfree = true;
@@ -51,7 +57,6 @@
     };
 
     system = "x86_64-linux";
-    configVars = import ./vars {inherit inputs lib;};
     extraSpecialArgs = {
       inherit inputs;
       inherit outputs;
