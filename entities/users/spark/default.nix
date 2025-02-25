@@ -21,6 +21,33 @@ in {
       home = {
         username = userName;
         homeDirectory = "/home/${userName}";
+        persistence."${configVars.persistFolder}/home/${userName}" = {
+          directories = [
+            "Desktop"
+            "Documents"
+            "Downloads"
+            "Music"
+            "Pictures"
+            "Public"
+            "Templates"
+            "Videos"
+            ".gnupg"
+            ".ssh"
+            ".nixops"
+            ".mozilla"
+            ".vscode-oss"
+            ".local/share/keyrings"
+            ".local/share/direnv"
+            {
+              directory = ".local/share/Steam";
+              method = "symlink";
+            }
+          ];
+          files = [
+            ".screenrc"
+          ];
+          allowOther = true;
+        };
       };
 
       programs = {
