@@ -54,10 +54,6 @@ in {
         git = {
           inherit userEmail userName;
         };
-
-        vscode = {
-          enable = true;
-        };
       };
     };
   };

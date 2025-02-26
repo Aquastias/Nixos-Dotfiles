@@ -53,7 +53,7 @@
       zfs
     ];
     sessionVariables = {
-      FLAKE = "/etc/nixos";
+      FLAKE = "${configVars.persistFolder}/nixos";
       NIXOS_OZONE_WL = "1";
     };
   };
