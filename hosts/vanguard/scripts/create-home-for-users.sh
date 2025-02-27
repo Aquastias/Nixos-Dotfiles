@@ -17,7 +17,7 @@ if ! users_json=$(nix-instantiate --eval --strict --json "$users_nix_file"); the
   exit 1
 fi
 
-users_array=$(echo "$users_json" | sed 's/\[//;s/\]//;s/"//g;s/,/\\n/g')
+users_array=$(echo "$users_json" | sed 's/[][]//g; s/"//g; s/,/\n/g')
 
 if [[ -z "$users_array" ]]; then
   echo "Error parsing JSON (likely empty array)"
