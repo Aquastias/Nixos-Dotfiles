@@ -3,7 +3,6 @@
   imports = [
     ./fuse
     ./gnupg
-    ./jq
     ./mtr
   ];
 }

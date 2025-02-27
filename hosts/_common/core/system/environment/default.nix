@@ -38,6 +38,7 @@
 
       alejandra
       curl
+      jq
       libbs2b
       nh
       nixd
