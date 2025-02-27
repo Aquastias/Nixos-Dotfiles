@@ -1,22 +1,20 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{configVars, ...}: {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware
-    ./disko-config.nix
+{configVars, ...}: let
+  users = import ./users.nix; # Import the user list from users.nix
+in {
+  imports =
+    [
+      ./hardware
+      ./disko-config.nix
 
-    # Common core stuff
-    "${configVars.hosts.common.core.nix.path}"
-    "${configVars.hosts.common.core.programs.path}"
-    "${configVars.hosts.common.core.services.path}"
-    "${configVars.hosts.common.core.system.path}"
-
-    # Users
-    "${configVars.entities.users.path}/aquastias"
-    "${configVars.entities.users.path}/spark"
-  ];
+      "${configVars.hosts.common.core.nix.path}"
+      "${configVars.hosts.common.core.programs.path}"
+      "${configVars.hosts.common.core.services.path}"
+      "${configVars.hosts.common.core.system.path}"
+    ]
+    ++ builtins.map (user: "${configVars.entities.users.path}/${user}") users;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

@@ -3,9 +3,11 @@
     bootspec = {
       enable = true;
     };
-    initrd.postDeviceCommands = lib.mkAfter ''
-      zfs rollback -r zroot/local/root@blank
-    '';
+    initrd = {
+      postResumeCommands = lib.mkAfter ''
+        zfs rollback -r zroot/local/root@blank
+      '';
+    };
     loader = {
       efi = {
         canTouchEfiVariables = true;
