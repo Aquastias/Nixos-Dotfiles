@@ -79,29 +79,18 @@
         home-manager.backupFileExtension = "backup";
       }
     ];
+
+    host = builtins.elemAt configVars.hosts.names 2;
   in {
-    # Dynamically generate nixosConfigurations for each host
-    nixosConfigurations =
-      builtins.mapAttrs
-      (
-        host: _:
-          nixpkgs.lib.nixosSystem {
-            specialArgs =
-              {
-                hostName = host;
-              }
-              // extraSpecialArgs;
-            modules = shared-modules host ++ [./hosts/${host}/configuration.nix];
+    nixosConfigurations = {
+      vanguard = nixpkgs.lib.nixosSystem {
+        specialArgs =
+          {
+            hostName = host;
           }
-      )
-      (
-        builtins.listToAttrs (
-          map (host: {
-            name = host;
-            value = null;
-          })
-          configVars.hosts.names
-        )
-      );
+          // extraSpecialArgs;
+        modules = shared-modules host ++ [./hosts/${host}/configuration.nix];
+      };
+    };
   };
 }
