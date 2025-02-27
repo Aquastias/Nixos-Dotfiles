@@ -5,8 +5,8 @@ if ! command -v nix-instantiate &>/dev/null; then
   exit 127
 fi
 
-if ! command -v jq &>/dev/null; then
-  echo "jq could not be found. Please install jq."
+if ! command -v sed &>/dev/null; then
+  echo "sed could not be found. Please install sed."
   exit 127
 fi
 
@@ -17,8 +17,10 @@ if ! users_json=$(nix-instantiate --eval --strict --json "$users_nix_file"); the
   exit 1
 fi
 
-if ! users_array=$(echo "$users_json" | jq -r '.[]'); then
-  echo "Error parsing JSON with jq"
+users_array=$(echo "$users_json" | sed 's/\[//;s/\]//;s/"//g;s/,/\\n/g')
+
+if [[ -z "$users_array" ]]; then
+  echo "Error parsing JSON (likely empty array)"
   exit 1
 fi
 
@@ -30,7 +32,7 @@ if ! mkdir -p /mnt/persist/home; then
 fi
 
 for user in "${users[@]}"; do
-  if ! sudo mkdir -p "/mnt/persist/home/$user"; then
+  if ! mkdir -p "/mnt/persist/home/$user"; then
     echo "Failed to create directory /mnt/persist/home/$user"
     exit 1
   fi
