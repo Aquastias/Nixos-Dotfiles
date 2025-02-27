@@ -1,4 +1,3 @@
 [
   "aquastias"
-  "spark"
 ]
