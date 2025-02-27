@@ -11,6 +11,6 @@ chmod +x ./create-home-for-users.sh
 ./run-disko.sh
 ./create-home-for-users.sh
 
-rm -rf /persist/nixos
-git clone git@github.com:Aquastias/Nixos-Dotfiles.git /persist/nixos
+rm -rf /mnt/persist/nixos
+git clone https://github.com/Aquastias/Nixos-Dotfiles.git /mnt/persist/nixos
 nixos-install --root /mnt --flake /mnt/persist/nixos#vanguard

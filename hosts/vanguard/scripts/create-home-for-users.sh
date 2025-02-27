@@ -24,16 +24,16 @@ fi
 
 readarray -t users <<< "$users_array"
 
-if ! mkdir -p /persist/home; then
-  echo "Failed to create directory /persist/home"
+if ! mkdir -p /mnt/persist/home; then
+  echo "Failed to create directory /mnt/persist/home"
   exit 1
 fi
 
 for user in "${users[@]}"; do
-  if ! sudo mkdir -p "/persist/home/$user"; then
-    echo "Failed to create directory /persist/home/$user"
+  if ! sudo mkdir -p "/mnt/persist/home/$user"; then
+    echo "Failed to create directory /mnt/persist/home/$user"
     exit 1
   fi
 
-  echo "Created directory /persist/home/$user"
+  echo "Created directory /mnt/persist/home/$user"
 done
