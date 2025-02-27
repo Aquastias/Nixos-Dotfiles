@@ -38,4 +38,6 @@ for user in "${users[@]}"; do
   fi
 
   echo "Created directory /mnt/persist/home/$user"
+
+  chown -R "$user" "/mnt/persist/home/$user" 
 done
