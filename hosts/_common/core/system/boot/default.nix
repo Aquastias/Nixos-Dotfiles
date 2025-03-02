@@ -8,6 +8,7 @@
         zfs rollback -r zroot/local/root@blank
       '';
     };
+    kernelParams = ["nohibernate"];
     loader = {
       efi = {
         canTouchEfiVariables = true;
