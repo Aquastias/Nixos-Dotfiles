@@ -44,7 +44,7 @@
     configVars = import ./vars {inherit inputs lib;};
     system = "${configVars.system}";
 
-    pkgs = import inputs.nixpkgs {
+    pkgs = import nixpkgs {
       inherit system;
 
       config.allowUnfree = true;
@@ -64,9 +64,9 @@
     };
 
     shared-modules = host: [
-      inputs.disko.nixosModules.disko
-      inputs.impermanence.nixosModules.impermanence
-      inputs.home-manager.nixosModules.home-manager
+      disko.nixosModules.disko
+      impermanence.nixosModules.impermanence
+      home-manager.nixosModules.home-manager
       {
         home-manager.extraSpecialArgs =
           {
@@ -74,8 +74,7 @@
           }
           // extraSpecialArgs;
         home-manager.sharedModules = [
-          inputs.arkenfox.hmModules.default
-          inputs.impermanence.homeManagerModules.impermanence
+          arkenfox.hmModules.default
         ];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
