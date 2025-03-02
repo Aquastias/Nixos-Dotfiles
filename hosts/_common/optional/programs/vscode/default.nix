@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  vscodePackage = config.programs.vscode.package;
+  vscodePackage = config.programs.vscode.package.pname;
   configDirName =
     lib.getAttr
     {
