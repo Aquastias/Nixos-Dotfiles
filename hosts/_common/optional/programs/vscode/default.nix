@@ -1,52 +1,79 @@
 {
   pkgs,
   config,
+  lib,
   ...
-}: {
+}: let
+  vscodePackage = config.programs.vscode.package;
+  configDirName =
+    lib.getAttr
+    {
+      "vscode" = "Code";
+      "vscode-insiders" = "Code - Insiders";
+      "vscodium" = "VSCodium";
+    }
+    (lib.getName vscodePackage);
+  userDir = "${config.xdg.configHome}/${configDirName}/User";
+  backupPath = "${userDir}/settings.json.backup";
+  configPath = "${userDir}/settings.json";
+in {
   imports = [
     ./extensions.nix
     ./keybindings.nix
     ./user-settings.nix
   ];
 
-  home.activation.removeVSCodeSettingsBackup = let
-    configDirName =
-      {
-        "vscode" = "Code";
-        "vscode-insiders" = "Code - Insiders";
-        "vscodium" = "VSCodium";
-      }
-      .${config.programs.vscode.package.pname};
-  in {
+  programs.vscode = {
+    enable = false;
+    enableExtensionUpdateCheck = false;
+    enableUpdateCheck = false;
+    mutableExtensionsDir = false;
+    package = pkgs.vscodium;
+  };
+
+  home.activation.removeVSCodeSettingsBackup = lib.mkIf (vscodePackage != null) {
     after = [];
     before = ["checkLinkTargets"];
-    data = ''
-      userDir=${config.xdg.configHome}/${configDirName}/User
-      rm -rf $userDir/settings.json.backup
+    data = pkgs.writeShellScript "remove-vscode-settings-backup" ''
+      set -euo pipefail
+
+      backupPath="${backupPath}"
+
+      if [[ -f "$backupPath" ]]; then
+        rm -f "$backupPath"
+        echo "Removed VS Code settings backup: $backupPath"
+      else
+        echo "VS Code settings backup not found: $backupPath"
+      fi
     '';
   };
 
-  home.activation.makeVSCodeConfigWritable = let
-    configDirName =
-      {
-        "vscode" = "Code";
-        "vscode-insiders" = "Code - Insiders";
-        "vscodium" = "VSCodium";
-      }
-      .${config.programs.vscode.package.pname};
-    configPath = "${config.xdg.configHome}/${configDirName}/User/settings.json";
-  in {
+  home.activation.makeVSCodeConfigWritable = lib.mkIf (vscodePackage != null) {
     after = ["writeBoundary"];
     before = [];
-    data = ''
-      install -m 0640 "$(readlink ${configPath})" ${configPath}
-    '';
-  };
+    data = pkgs.writeShellScript "make-vscode-settings-writable" ''
+      set -euo pipefail
 
-  programs.vscode = {
-    package = pkgs.vscodium;
-    mutableExtensionsDir = false;
-    enableUpdateCheck = false;
-    enableExtensionUpdateCheck = false;
+      if [[ ! -L "${configPath}" ]]; then
+        echo "Symlink ${configPath} does not exist."
+        exit 0
+      fi
+
+      target=$(readlink "${configPath}")
+
+      if [[ ! -f "$target" ]]; then
+        echo "Target $target does not exist."
+        exit 0
+      fi
+
+      current_perms=$(stat -c "%a" "${configPath}")
+
+      if [[ "$current_perms" != "640" ]]; then
+        install -m 0640 "$target" "${configPath}"
+        echo "Permissions of ${configPath} set to 640."
+      else
+        echo "Permissions of ${configPath} are already 640."
+      fi
+    '';
   };
 }
