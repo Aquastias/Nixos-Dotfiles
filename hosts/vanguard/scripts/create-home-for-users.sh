@@ -16,5 +16,5 @@ mkdir "${rootHome}/aquastias"
 mkdir "${rootHome}/spark"
 
 # Make each home accessible universally
-chown -R 775 "${rootHome}/aquastias"
-chown -R 775 "${rootHome}/spark"
+chmod -R 775 "${rootHome}/aquastias"
+chmod -R 775 "${rootHome}/spark"
