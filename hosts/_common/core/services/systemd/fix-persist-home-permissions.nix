@@ -6,17 +6,15 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''
-        for user in /persist/home/*; do
-          if [ -d "$user" ]; then
-            username=$(basename "$user")
+        ${pkgs.find}/bin/find /persist/home -maxdepth 1 -type d -exec sh -c '
+          username=$(basename "$1")
 
-            if id "$username" >/dev/null 2>&1; then
-              ${pkgs.coreutils}/bin/chown -R "$username":users "$user"
-            else
-              echo "User $username not found, skipping $user"
-            fi
+          if id "$username" >/dev/null 2>&1; then
+            ${pkgs.coreutils}/bin/chown -R "$username":users "$1"
+          else
+            echo "User $username not found, skipping $1"
           fi
-        done
+        ' sh {} \;
       '';
     };
     wantedBy = ["multi-user.target"];
