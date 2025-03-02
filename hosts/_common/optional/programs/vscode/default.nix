@@ -24,7 +24,6 @@ in {
   ];
 
   programs.vscode = {
-    enable = false;
     enableExtensionUpdateCheck = false;
     enableUpdateCheck = false;
     mutableExtensionsDir = false;
