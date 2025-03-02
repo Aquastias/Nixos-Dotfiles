@@ -12,7 +12,7 @@
       "vscode-insiders" = "Code - Insiders";
       "vscodium" = "VSCodium";
     }
-    (lib.getName vscodePackage);
+    (lib.getName config.programs.vscode.package.pname);
   userDir = "${config.xdg.configHome}/${configDirName}/User";
   backupPath = "${userDir}/settings.json.backup";
   configPath = "${userDir}/settings.json";
