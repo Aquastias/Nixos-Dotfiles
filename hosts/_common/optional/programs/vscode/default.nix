@@ -30,6 +30,23 @@ in {
     package = pkgs.vscodium;
   };
 
+  home.activation.removeVSCodeSettingsBackup = lib.mkIf (vscodePackage != null) {
+    after = [];
+    before = ["checkLinkTargets"];
+    data = pkgs.writeShellScriptBin "remove-vscode-settings-backup" ''
+      set -euo pipefail
+
+      backupPath="${builtins.escapeShellArgs [backupPath]}"
+
+      if [[ -f "$backupPath" ]]; then
+        rm -f "$backupPath"
+        echo "Removed VS Code settings backup: $backupPath"
+      else
+        echo "VS Code settings backup not found: $backupPath"
+      fi
+    '';
+  };
+
   home.activation.makeVSCodeConfigWritable = lib.mkIf (vscodePackage != null) {
     after = ["writeBoundary"];
     before = [];
