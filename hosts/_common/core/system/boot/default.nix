@@ -16,6 +16,10 @@
         enable = lib.mkForce true;
       };
     };
+    supportedFilesystems = {
+      btrfs = false;
+      zfs = lib.mkForce true;
+    };
     zfs = {
       devNodes = "/dev/disk/by-partuuid";
     };

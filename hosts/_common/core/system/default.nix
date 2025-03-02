@@ -9,5 +9,6 @@
     ./networking
     ./swap
     ./time
+    ./users
   ];
 }

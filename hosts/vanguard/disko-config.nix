@@ -10,7 +10,7 @@
           partitions = {
             boot = {
               size = "1M";
-              type = "EF02"; # for grub MBR
+              type = "EF02"; # For grub MBR
             };
             ESP = {
               size = "1G";
