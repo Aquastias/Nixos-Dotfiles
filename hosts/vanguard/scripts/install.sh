@@ -5,11 +5,7 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-chmod +x ./run-disko.sh
-#chmod +x ./create-home-for-users.sh
-
-./run-disko.sh
-./create-home-for-users.sh
+chmod +x ./run-disko.sh && ./run-disko.sh
 
 rm -rf /mnt/persist/nixos
 git clone https://github.com/Aquastias/Nixos-Dotfiles.git /mnt/persist/nixos
