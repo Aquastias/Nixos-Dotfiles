@@ -24,16 +24,16 @@ in {
   ];
 
   programs.vscode = {
-    enableExtensionUpdateCheck = false;
-    enableUpdateCheck = false;
-    mutableExtensionsDir = false;
     package = pkgs.vscodium;
+    mutableExtensionsDir = false;
+    enableUpdateCheck = false;
+    enableExtensionUpdateCheck = false;
   };
 
   home.activation.removeVSCodeSettingsBackup = lib.mkIf (vscodePackage != null) {
     after = [];
     before = ["checkLinkTargets"];
-    data = pkgs.writeShellScriptBin "remove-vscode-settings-backup" ''
+    data = ''
       set -euo pipefail
 
       backupPath="${builtins.escapeShellArgs [backupPath]}"
@@ -50,7 +50,7 @@ in {
   home.activation.makeVSCodeConfigWritable = lib.mkIf (vscodePackage != null) {
     after = ["writeBoundary"];
     before = [];
-    data = pkgs.writeShellScriptBin "make-vscode-settings-writable" ''
+    data = ''
       set -euo pipefail
 
       if [[ ! -L "${configPath}" ]]; then
