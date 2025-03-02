@@ -6,7 +6,7 @@
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''
-        ${pkgs.find}/bin/find /persist/home -maxdepth 1 -type d -exec sh -c '
+        ${pkgs.findutils}/bin/find /persist/home -maxdepth 1 -type d -exec sh -c '
           username=$(basename "$1")
 
           if id "$username" >/dev/null 2>&1; then
