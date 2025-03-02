@@ -36,7 +36,6 @@ in {
     data = pkgs.writeShellScriptBin "remove-vscode-settings-backup" ''
       set -euo pipefail
 
-      backupPath="${backupPath}"
       backupPath="${builtins.escapeShellArgs [backupPath]}"
 
       if [[ -f "$backupPath" ]]; then
