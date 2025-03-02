@@ -3,7 +3,7 @@
     enable = true;
     extraConfig = {
       init.defaultBranch = "main";
-      safe.directory = "/etc/nixos";
+      safe.directory = "/persist/nixos";
     };
   };
 }
