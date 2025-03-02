@@ -36,7 +36,7 @@ in {
     data = pkgs.writeShellScriptBin "remove-vscode-settings-backup" ''
       set -euo pipefail
 
-      backupPath="$1"
+      backupPath="${backupPath}"
 
       if [[ -f "$backupPath" ]]; then
         rm -f "$backupPath"
@@ -44,13 +44,13 @@ in {
       else
         echo "VS Code settings backup not found: $backupPath"
       fi
-    '' [backupPath];
+    '';
   };
 
   home.activation.makeVSCodeConfigWritable = lib.mkIf (vscodePackage != null) {
     after = ["writeBoundary"];
     before = [];
-    data = pkgs.writeShellScript "make-vscode-settings-writable" ''
+    data = pkgs.writeShellScriptBin "make-vscode-settings-writable" ''
       set -euo pipefail
 
       if [[ ! -L "${configPath}" ]]; then
