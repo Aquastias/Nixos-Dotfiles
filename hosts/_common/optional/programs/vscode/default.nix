@@ -37,6 +37,7 @@ in {
       set -euo pipefail
 
       backupPath="${backupPath}"
+      backupPath="${builtins.escapeShellArgs [backupPath]}"
 
       if [[ -f "$backupPath" ]]; then
         rm -f "$backupPath"
