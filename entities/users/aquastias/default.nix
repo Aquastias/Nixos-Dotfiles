@@ -5,7 +5,7 @@ in {
   users.users."${userName}" = {
     initialPassword = "password";
     isNormalUser = true;
-    description = "Mlakar Alexandru Laurian";
+    description = "Aquastias";
     extraGroups = [
       "audio"
       "gpg" # For GnuPG
