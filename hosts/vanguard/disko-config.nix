@@ -62,39 +62,43 @@
           ashift = "12";
         };
 
-        datasets = {
-          "system" = {
-            type = "zfs_fs";
-            options.mountpoint = "none";
-          };
-          "system/root" = {
-            type = "zfs_fs";
-            mountpoint = "/";
-            options = {
-              "com.sun:auto-snapshot" = "false";
-              encryption = "aes-256-gcm";
-              keyformat = "passphrase";
-              keylocation = "prompt";
+        datasets = let
+          systemDir = "system";
+          systemDatasets = {
+            "${systemDir}" = {
+              type = "zfs_fs";
+              options.mountpoint = "none";
             };
-            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/local/root@blank$' || zfs snapshot zroot/local/root@blank";
+            "${systemDir}/root" = {
+              type = "zfs_fs";
+              mountpoint = "/";
+              options = {
+                "com.sun:auto-snapshot" = "false";
+                encryption = "aes-256-gcm";
+                keyformat = "passphrase";
+                keylocation = "prompt";
+              };
+              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${systemDir}/root@blank$' || zfs snapshot zroot/${systemDir}/root@blank";
+            };
+            "${systemDir}/home" = {
+              type = "zfs_fs";
+              mountpoint = "/home";
+              # Used by services.zfs.autoSnapshot options.
+              options."com.sun:auto-snapshot" = "true";
+            };
+            "${systemDir}/nix" = {
+              type = "zfs_fs";
+              mountpoint = "/nix";
+              options."com.sun:auto-snapshot" = "false";
+            };
+            "${systemDir}/persist" = {
+              type = "zfs_fs";
+              mountpoint = "/persist";
+              options."com.sun:auto-snapshot" = "false";
+            };
           };
-          "system/home" = {
-            type = "zfs_fs";
-            mountpoint = "/home";
-            # Used by services.zfs.autoSnapshot options.
-            options."com.sun:auto-snapshot" = "true";
-          };
-          "system/nix" = {
-            type = "zfs_fs";
-            mountpoint = "/nix";
-            options."com.sun:auto-snapshot" = "false";
-          };
-          "system/persist" = {
-            type = "zfs_fs";
-            mountpoint = "/persist";
-            options."com.sun:auto-snapshot" = "false";
-          };
-        };
+        in
+          systemDatasets;
       };
     };
   };
