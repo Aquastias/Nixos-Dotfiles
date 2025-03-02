@@ -10,11 +10,11 @@
         hideMounts = true;
         directories = [
           "/etc/nixos"
+          "/etc/NetworkManager/system-connections"
           "/var/log"
           "/var/lib/bluetooth"
           "/var/lib/nixos"
           "/var/lib/systemd/coredump"
-          "/etc/NetworkManager/system-connections"
           {
             directory = "/var/lib/colord";
             user = "colord";
