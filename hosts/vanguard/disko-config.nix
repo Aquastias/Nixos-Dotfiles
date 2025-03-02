@@ -97,23 +97,8 @@
               options."com.sun:auto-snapshot" = "false";
             };
           };
-
-          homeDatasets = {
-            home = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-            };
-            "home/aquastias" = {
-              type = "zfs_fs";
-              mountpoint = "/home/aquastias";
-            };
-            "home/spark" = {
-              type = "zfs_fs";
-              mountpoint = "/home/spark";
-            };
-          };
         in
-          systemDatasets // homeDatasets;
+          systemDatasets;
       };
     };
   };
