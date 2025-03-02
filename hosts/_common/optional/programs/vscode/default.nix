@@ -6,13 +6,12 @@
 }: let
   vscodePackage = config.programs.vscode.package.pname;
   configDirName =
-    lib.getAttr
     {
       "vscode" = "Code";
       "vscode-insiders" = "Code - Insiders";
       "vscodium" = "VSCodium";
     }
-    (lib.getName config.programs.vscode.package.pname);
+    .${config.programs.vscode.package.pname};
   userDir = "${config.xdg.configHome}/${configDirName}/User";
   backupPath = "${userDir}/settings.json.backup";
   configPath = "${userDir}/settings.json";
