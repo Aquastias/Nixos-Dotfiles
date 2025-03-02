@@ -80,17 +80,31 @@
         home-manager.backupFileExtension = "backup";
       }
     ];
-
-    host = builtins.elemAt configVars.hosts.names 2;
   in {
     nixosConfigurations = {
+      chronos = nixpkgs.lib.nixosSystem {
+        specialArgs =
+          {
+            hostName = "chronos";
+          }
+          // extraSpecialArgs;
+        modules = shared-modules "chronos" ++ [./hosts/chronos/configuration.nix];
+      };
+      eterniox = nixpkgs.lib.nixosSystem {
+        specialArgs =
+          {
+            hostName = "eterniox";
+          }
+          // extraSpecialArgs;
+        modules = shared-modules "eterniox" ++ [./hosts/eterniox/configuration.nix];
+      };
       vanguard = nixpkgs.lib.nixosSystem {
         specialArgs =
           {
-            hostName = host;
+            hostName = "vanguard";
           }
           // extraSpecialArgs;
-        modules = shared-modules host ++ [./hosts/${host}/configuration.nix];
+        modules = shared-modules "vanguard" ++ [./hosts/vanguard/configuration.nix];
       };
     };
   };
