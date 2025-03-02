@@ -2,7 +2,7 @@
   systemd.services.fix-persist-home-permissions = {
     description = "Fix /persist/home permissions for each user";
     after = ["local-fs.target"];
-    before = ["display-manager.service"]; # If you use a display manager
+    before = ["display-manager.service"];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''
