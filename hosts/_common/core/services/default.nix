@@ -4,6 +4,7 @@
     ./libinput
     ./openssh
     ./printing
+    ./systemd
     ./xserver
   ];
 }
