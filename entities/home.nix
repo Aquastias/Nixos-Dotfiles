@@ -1,12 +1,5 @@
-{
-  configVars,
-  inputs,
-  ...
-}: {
+{configVars, ...}: {
   imports = [
-    # Impermanence module
-    inputs.impermanence.homeManagerModules.impermanence
-
     # Core stuff
     "${configVars.hosts.common.core.programs.path}/git"
     "${configVars.hosts.common.core.programs.path}/firefox"

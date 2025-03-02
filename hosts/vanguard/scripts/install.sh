@@ -6,7 +6,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 chmod +x ./run-disko.sh
-chmod +x ./create-home-for-users.sh
+#chmod +x ./create-home-for-users.sh
 
 ./run-disko.sh
 ./create-home-for-users.sh

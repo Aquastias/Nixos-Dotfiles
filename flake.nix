@@ -73,7 +73,10 @@
             hostName = host;
           }
           // extraSpecialArgs;
-        home-manager.sharedModules = [inputs.arkenfox.hmModules.default];
+        home-manager.sharedModules = [
+          inputs.arkenfox.hmModules.default
+          inputs.impermanence.homeManagerModules.impermanence
+        ];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "backup";
