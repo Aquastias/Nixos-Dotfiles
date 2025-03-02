@@ -30,6 +30,40 @@
           }
         ];
       };
+      "${configVars.persistFolder}".users = {
+        aquastias = {
+          directories = [
+            "Desktop"
+            "Documents"
+            "Downloads"
+            "Music"
+            "Pictures"
+            "Public"
+            "Templates"
+            "Videos"
+            {
+              directory = ".gnupg";
+              mode = "0700";
+            }
+            {
+              directory = ".ssh";
+              mode = "0700";
+            }
+            {
+              directory = ".nixops";
+              mode = "0700";
+            }
+            {
+              directory = ".local/share/keyrings";
+              mode = "0700";
+            }
+            ".local/share/direnv"
+          ];
+          files = [
+            ".screenrc"
+          ];
+        };
+      };
     };
     # List pkgs installed in system profile. To search, run:
     # $ nix search wget
