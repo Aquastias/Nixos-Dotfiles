@@ -1,4 +1,4 @@
-{
+{configVars, ...}: {
   disko.devices = {
     disk = {
       main = {
@@ -59,7 +59,6 @@
         };
 
         datasets = let
-          configVars = ../../vars;
           systemDatasets = {
             "${configVars.disko.systemDir}" = {
               type = "zfs_fs";
