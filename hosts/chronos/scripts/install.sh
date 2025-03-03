@@ -8,5 +8,5 @@ fi
 chmod +x ./run-disko.sh && ./run-disko.sh
 
 rm -rf /mnt/persist/nixos
-git clone https://github.com/Aquastias/Nixos-Dotfiles.git /mnt/persist/nixos
+git clone https://github.com/Aquastias/Nixos-Dotfiles.git --depth=1 /mnt/persist/nixos
 nixos-install --root /mnt --flake /mnt/persist/nixos#chronos
