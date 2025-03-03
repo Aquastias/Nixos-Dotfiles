@@ -1,11 +1,15 @@
-{lib, ...}: {
+{
+  lib,
+  configVars,
+  ...
+}: {
   boot = {
     bootspec = {
       enable = true;
     };
     initrd = {
       postResumeCommands = lib.mkAfter ''
-        zfs rollback -r zroot/local/root@blank
+        zfs rollback -r zroot/${configVars.disko.systemDir}/root@blank
       '';
     };
     kernelParams = ["nohibernate"];

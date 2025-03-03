@@ -1,4 +1,6 @@
-{
+let
+  configVars = import ../vars;
+in {
   disko.devices = {
     disk = {
       main = {
@@ -15,7 +17,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0022"];
+                mountOptions = ["umask=0022"]; #0077 for very strict
               };
             };
             swap = {
@@ -59,13 +61,12 @@
         };
 
         datasets = let
-          systemDir = "system";
           systemDatasets = {
-            "${systemDir}" = {
+            "${configVars.disko.systemDir}" = {
               type = "zfs_fs";
               options.mountpoint = "none";
             };
-            "${systemDir}/root" = {
+            "${configVars.disko.systemDir}/root" = {
               type = "zfs_fs";
               mountpoint = "/";
               options = {
@@ -74,22 +75,22 @@
                 keyformat = "passphrase";
                 keylocation = "prompt";
               };
-              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${systemDir}/root@blank$' || zfs snapshot zroot/${systemDir}/root@blank";
+              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${configVars.disko.systemDir}/root@blank$' || zfs snapshot zroot/${configVars.disko.systemDir}/root@blank";
             };
-            "${systemDir}/home" = {
+            "${configVars.disko.systemDir}/home" = {
               type = "zfs_fs";
               mountpoint = "/home";
               # Used by services.zfs.autoSnapshot options.
               options."com.sun:auto-snapshot" = "true";
             };
-            "${systemDir}/nix" = {
+            "${configVars.disko.systemDir}/nix" = {
               type = "zfs_fs";
               mountpoint = "/nix";
               options."com.sun:auto-snapshot" = "false";
             };
-            "${systemDir}/persist" = {
+            "${configVars.disko.systemDir}${configVars.persistFolder}" = {
               type = "zfs_fs";
-              mountpoint = "/persist";
+              mountpoint = "${configVars.persistFolder}";
               options."com.sun:auto-snapshot" = "false";
             };
           };
