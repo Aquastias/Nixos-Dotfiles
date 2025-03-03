@@ -1,5 +1,7 @@
 {
-  disko.devices = {
+  disko.devices = let
+    configVars = import ../../vars;
+  in {
     disk = {
       main = {
         device = "/dev/vda";
@@ -58,44 +60,39 @@
           ashift = "12";
         };
 
-        datasets = let
-          configVars = import ../../vars;
-
-          systemDatasets = {
-            "${configVars.disko.systemDir}" = {
-              type = "zfs_fs";
-              options.mountpoint = "none";
-            };
-            "${configVars.disko.systemDir}/root" = {
-              type = "zfs_fs";
-              mountpoint = "/";
-              options = {
-                "com.sun:auto-snapshot" = "false";
-                encryption = "aes-256-gcm";
-                keyformat = "passphrase";
-                keylocation = "prompt";
-              };
-              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${configVars.disko.systemDir}/root@blank$' || zfs snapshot zroot/${configVars.disko.systemDir}/root@blank";
-            };
-            "${configVars.disko.systemDir}/home" = {
-              type = "zfs_fs";
-              mountpoint = "/home";
-              # Used by services.zfs.autoSnapshot options.
-              options."com.sun:auto-snapshot" = "true";
-            };
-            "${configVars.disko.systemDir}/nix" = {
-              type = "zfs_fs";
-              mountpoint = "/nix";
-              options."com.sun:auto-snapshot" = "false";
-            };
-            "${configVars.disko.systemDir}${configVars.persistFolder}" = {
-              type = "zfs_fs";
-              mountpoint = "${configVars.persistFolder}";
-              options."com.sun:auto-snapshot" = "false";
-            };
+        datasets = {
+          "${configVars.disko.systemDir}" = {
+            type = "zfs_fs";
+            options.mountpoint = "none";
           };
-        in
-          systemDatasets;
+          "${configVars.disko.systemDir}/root" = {
+            type = "zfs_fs";
+            mountpoint = "/";
+            options = {
+              "com.sun:auto-snapshot" = "false";
+              encryption = "aes-256-gcm";
+              keyformat = "passphrase";
+              keylocation = "prompt";
+            };
+            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${configVars.disko.systemDir}/root@blank$' || zfs snapshot zroot/${configVars.disko.systemDir}/root@blank";
+          };
+          "${configVars.disko.systemDir}/home" = {
+            type = "zfs_fs";
+            mountpoint = "/home";
+            # Used by services.zfs.autoSnapshot options.
+            options."com.sun:auto-snapshot" = "true";
+          };
+          "${configVars.disko.systemDir}/nix" = {
+            type = "zfs_fs";
+            mountpoint = "/nix";
+            options."com.sun:auto-snapshot" = "false";
+          };
+          "${configVars.disko.systemDir}${configVars.persistFolder}" = {
+            type = "zfs_fs";
+            mountpoint = "${configVars.persistFolder}";
+            options."com.sun:auto-snapshot" = "false";
+          };
+        };
       };
     };
   };
