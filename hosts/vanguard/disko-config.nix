@@ -1,8 +1,5 @@
-{...}: let
-  configVars = import ../../vars;
-  toJSONFieldConversion = import "${configVars.functions.path}/toJSONFieldConversion.nix";
-
-  diskoDevicesConfig = {
+{
+  disko.devices = {
     disk = {
       main = {
         device = "/dev/vda";
@@ -62,6 +59,7 @@
         };
 
         datasets = let
+          configVars = ../../vars;
           systemDatasets = {
             "${configVars.disko.systemDir}" = {
               type = "zfs_fs";
@@ -100,6 +98,4 @@
       };
     };
   };
-in {
-  disko.devices = toJSONFieldConversion diskoDevicesConfig;
 }
