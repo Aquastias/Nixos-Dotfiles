@@ -74,6 +74,7 @@
           // extraSpecialArgs;
         home-manager.sharedModules = [
           arkenfox.hmModules.default
+          impermanence.homeManagerModules.default
         ];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;

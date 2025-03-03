@@ -8,18 +8,14 @@
           type = "gpt";
 
           partitions = {
-            boot = {
-              size = "1M";
-              type = "EF02"; # For grub MBR
-            };
             ESP = {
-              size = "1G";
+              size = "512M";
               type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountpoint = "/boot/efi";
+                mountOptions = ["umask=0022"];
               };
             };
             swap = {
@@ -95,6 +91,10 @@
               type = "zfs_fs";
               mountpoint = "/persist";
               options."com.sun:auto-snapshot" = "false";
+            };
+            "${systemDir}/boot" = {
+              type = "zfs_fs";
+              mountpoint = "/boot";
             };
           };
         in
