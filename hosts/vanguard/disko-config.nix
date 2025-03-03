@@ -1,7 +1,5 @@
 {
-  disko.devices = let
-    configVars = import ../../vars;
-  in {
+  disko.devices = {
     disk = {
       main = {
         device = "/dev/vda";
@@ -61,6 +59,8 @@
         };
 
         datasets = let
+          configVars = import ../../vars;
+
           systemDatasets = {
             "${configVars.disko.systemDir}" = {
               type = "zfs_fs";
