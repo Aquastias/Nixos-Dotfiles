@@ -1,7 +1,7 @@
-let
-  configVars = import ../vars;
-in {
-  disko.devices = {
+{
+  disko.devices = let
+    configVars = import ../../vars;
+  in {
     disk = {
       main = {
         device = "/dev/vda";
