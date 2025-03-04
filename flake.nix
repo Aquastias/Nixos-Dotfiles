@@ -81,15 +81,15 @@
         home-manager.backupFileExtension = "backup";
       }
     ];
+
+    hostDir = ./hosts;
+    hostConfFiles = builtins.find hostDir (path: type: path == "${hostDir}/${type}/configuration.nix");
+    hostNames = builtins.map (path: builtins.head (builtins.tail (builtins.splitPath path))) hostConfFiles;
   in {
-    nixosConfigurations = lib.genAttrs configVars.hosts (host:
+    nixosConfigurations = lib.genAttrs hostNames (hostName:
       nixpkgs.lib.nixosSystem {
-        specialArgs =
-          {
-            hostName = host;
-          }
-          // extraSpecialArgs;
-        modules = shared-modules host ++ [./hosts/${host}/configuration.nix];
+        specialArgs = {hostName = hostName;} // extraSpecialArgs;
+        modules = shared-modules hostName ++ ["${hostDir}/${hostName}/configuration.nix"];
       });
   };
 }
