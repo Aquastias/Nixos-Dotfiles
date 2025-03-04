@@ -1,11 +1,14 @@
-{configVars, ...}: {
+{configVars, ...}: let
+  inherit (configVars) hosts version;
+  inherit (hosts.common) core optional;
+in {
   imports = [
     # Core stuff
-    "${configVars.hosts.common.core.programs.path}/git"
-    "${configVars.hosts.common.core.programs.path}/firefox"
+    "${core.programs.path}/git"
+    "${core.programs.path}/firefox"
 
     # Optional stuff
-    "${configVars.hosts.common.optional.programs.path}/vscode"
+    "${optional.programs.path}/vscode"
   ];
 
   home = {
@@ -18,7 +21,7 @@
     # You should not change this value, even if you update Home Manager. If you do
     # want to update the value, then make sure to first check the Home Manager
     # release notes.
-    stateVersion = "${configVars.version}";
+    stateVersion = "${version}";
   };
 
   programs = {
