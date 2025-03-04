@@ -1,3 +1,7 @@
 {configVars, ...}: {
-  fileSystems."${configVars.persistFolder}".neededForBoot = true;
+  fileSystems = {
+    "/".neededForBoot = true;
+    "/nix".neededForBoot = true;
+    "${configVars.persistFolder}".neededForBoot = true;
+  };
 }
