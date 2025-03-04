@@ -3,7 +3,6 @@
     ./audio
     ./boot
     ./environment
-    ./fileSystems
     ./fonts
     ./i18n
     ./networking

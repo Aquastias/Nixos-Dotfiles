@@ -2,19 +2,23 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {configVars, ...}: let
+  inherit (configVars) hosts entities version;
+  inherit (hosts.common.core) nix programs services system;
+
   users = import ./users.nix;
 in {
   imports =
     [
       ./hardware
       ./disko-config.nix
+      ./fileSystems.nix
 
-      "${configVars.hosts.common.core.nix.path}"
-      "${configVars.hosts.common.core.programs.path}"
-      "${configVars.hosts.common.core.services.path}"
-      "${configVars.hosts.common.core.system.path}"
+      "${nix.path}"
+      "${programs.path}"
+      "${services.path}"
+      "${system.path}"
     ]
-    ++ builtins.map (user: "${configVars.entities.users.path}/${user}") users;
+    ++ builtins.map (user: "${entities.users.path}/${user}") users;
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -33,5 +37,5 @@ in {
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "${configVars.version}"; # Did you read the comment?
+  system.stateVersion = "${version}"; # Did you read the comment?
 }
