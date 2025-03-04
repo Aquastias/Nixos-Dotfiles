@@ -93,7 +93,7 @@
       in
         systemFunc {
           specialArgs = {hostName = host;} // extraSpecialArgs;
-          modules = shared-modules host ++ ["./hosts/${host}/configuration.nix"];
+          modules = shared-modules host ++ ./hosts/${host}/configuration.nix;
         };
     };
     # Invoke mkHost for each host config that is declared
