@@ -82,14 +82,25 @@
       }
     ];
 
-    hostDir = ./hosts;
-    hostConfFiles = builtins.find hostDir (path: type: path == "${hostDir}/${type}/configuration.nix");
-    hostNames = builtins.map (path: builtins.head (builtins.tail (builtins.splitPath path))) hostConfFiles;
+    #
+    # ========= Host Config Functions =========
+    #
+    # Handle a given host config
+    mkHost = host: {
+      ${host} = let
+        func = lib.nixosSystem;
+        systemFunc = func;
+      in
+        systemFunc {
+          specialArgs = {hostName = host;} // extraSpecialArgs;
+          modules = shared-modules host ++ ["./hosts/${host}/configuration.nix"];
+        };
+    };
+    # Invoke mkHost for each host config that is declared
+    mkHostConfigs = hosts: lib.foldl (acc: set: acc // set) {} (lib.map (host: mkHost host) hosts);
+    # Return the hosts declared in the given directory
+    readHosts = folder: lib.attrNames (builtins.readDir ./hosts/${folder});
   in {
-    nixosConfigurations = lib.genAttrs hostNames (hostName:
-      nixpkgs.lib.nixosSystem {
-        specialArgs = {hostName = hostName;} // extraSpecialArgs;
-        modules = shared-modules hostName ++ ["${hostDir}/${hostName}/configuration.nix"];
-      });
+    nixosConfigurations = mkHostConfigs (readHosts "nixos");
   };
 }
