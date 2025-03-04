@@ -82,31 +82,14 @@
       }
     ];
   in {
-    nixosConfigurations = {
-      chronos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations = lib.genAttrs configVars.hosts (host:
+      nixpkgs.lib.nixosSystem {
         specialArgs =
           {
-            hostName = "chronos";
+            hostName = host;
           }
           // extraSpecialArgs;
-        modules = shared-modules "chronos" ++ [./hosts/chronos/configuration.nix];
-      };
-      eterniox = nixpkgs.lib.nixosSystem {
-        specialArgs =
-          {
-            hostName = "eterniox";
-          }
-          // extraSpecialArgs;
-        modules = shared-modules "eterniox" ++ [./hosts/eterniox/configuration.nix];
-      };
-      vanguard = nixpkgs.lib.nixosSystem {
-        specialArgs =
-          {
-            hostName = "vanguard";
-          }
-          // extraSpecialArgs;
-        modules = shared-modules "vanguard" ++ [./hosts/vanguard/configuration.nix];
-      };
-    };
+        modules = shared-modules host ++ [./hosts/${host}/configuration.nix];
+      });
   };
 }
