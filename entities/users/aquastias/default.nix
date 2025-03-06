@@ -3,6 +3,7 @@
   inputs,
   ...
 }: let
+  inherit (configVars) persistFolder;
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
@@ -29,7 +30,7 @@ in {
         username = userName;
         homeDirectory = "/home/${userName}";
 
-        persistence."/persistent/home/${userName}" = {
+        persistence."${persistFolder}/home/${userName}" = {
           directories = [
             "Desktop"
             "Documents"
@@ -39,7 +40,6 @@ in {
             "Public"
             "Templates"
             "Videos"
-            "VirtualBox VMs"
             ".gnupg"
             ".ssh"
             ".mozilla"
