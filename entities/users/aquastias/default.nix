@@ -3,7 +3,7 @@
   inputs,
   ...
 }: let
-  inherit (configVars) persistFolder;
+  inherit (configVars) persistFolder entities;
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
@@ -20,52 +20,16 @@ in {
   };
 
   home-manager = {
-    users."${userName}" = {
+    users."${userName}" = {...}: {
       imports = [
-        configVars.entities.home.path
+        entities.home.path
         inputs.impermanence.homeManagerModules.impermanence
+
+        ./config.nix
       ];
 
-      home = {
-        username = userName;
-        homeDirectory = "/home/${userName}";
-
-        persistence."${persistFolder}/home/${userName}" = {
-          directories = [
-            "Desktop"
-            "Documents"
-            "Downloads"
-            "Music"
-            "Pictures"
-            "Public"
-            "Templates"
-            "Videos"
-            ".gnupg"
-            ".ssh"
-            ".mozilla"
-            ".vscode-oss"
-            ".local/share/keyrings"
-            ".local/share/direnv"
-            {
-              directory = ".local/share/Steam";
-              method = "symlink";
-            }
-          ];
-          files = [
-            ".screenrc"
-          ];
-          allowOther = true;
-        };
-      };
-
-      programs = {
-        git = {
-          inherit userEmail userName;
-        };
-
-        vscode = {
-          enable = true;
-        };
+      extraSpecialArgs = {
+        inherit userName userEmail persistFolder;
       };
     };
   };
