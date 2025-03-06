@@ -1,4 +1,8 @@
-{configVars, ...}: let
+{
+  configVars,
+  inputs,
+  ...
+}: let
   userName = "spark";
   userEmail = "alexandrumlakar@gmail.com";
 in {
@@ -18,6 +22,7 @@ in {
     users."${userName}" = {
       imports = [
         configVars.entities.home.path
+        inputs.impermanence.homeManagerModules.impermanence
       ];
 
       home = {
