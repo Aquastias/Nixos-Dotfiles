@@ -6,5 +6,6 @@
     ./printing
     ./systemd
     ./xserver
+    ./zfs
   ];
 }

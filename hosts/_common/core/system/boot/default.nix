@@ -12,7 +12,6 @@
         zfs rollback -r zroot/${configVars.disko.systemDir}/root@blank
       '';
     };
-    kernelParams = ["nohibernate"];
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -26,6 +25,7 @@
       zfs = lib.mkForce true;
     };
     zfs = {
+      allowHibernation = false;
       devNodes = "/dev/disk/by-partuuid";
     };
   };
