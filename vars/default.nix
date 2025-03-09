@@ -31,11 +31,6 @@
         system.path = ../hosts/_common/optional/system;
       };
     };
-    names = [
-      "chronos"
-      "eterniox"
-      "vanguard"
-    ];
   };
   disko = {
     systemDir = "system";
