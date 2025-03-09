@@ -22,6 +22,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     impermanence = {
       url = "github:nix-community/impermanence";
     };
@@ -35,6 +40,7 @@
     nur,
     disko,
     impermanence,
+    sops-nix,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -64,8 +70,9 @@
 
     shared-modules = host: [
       disko.nixosModules.disko
-      impermanence.nixosModules.impermanence
       home-manager.nixosModules.home-manager
+      impermanence.nixosModules.impermanence
+      sops-nix.nixosModules.sops
       {
         home-manager.extraSpecialArgs =
           {
@@ -74,6 +81,7 @@
           // extraSpecialArgs;
         home-manager.sharedModules = [
           arkenfox.hmModules.default
+          sops-nix.homeManagerModules.sops
         ];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
