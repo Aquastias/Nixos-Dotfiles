@@ -39,21 +39,23 @@ in {
     systemPackages = with pkgs; [
       home-manager
 
+      age
       alejandra
+      coreutils-full
       curl
       jq
       libbs2b
       nh
-      nixd
       nix-output-monitor
+      nixd
       nvd
       openssl
       sbctl
+      seahorse
+      sops
       tree
       vim
       wget
-      seahorse
-      coreutils-full
       zfs
     ];
     sessionVariables = {
