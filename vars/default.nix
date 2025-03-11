@@ -15,6 +15,7 @@
     };
   };
   hosts = {
+    path = ../hosts;
     common = {
       core = {
         path = ../hosts/_common/core;
