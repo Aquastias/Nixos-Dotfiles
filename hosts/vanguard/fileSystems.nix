@@ -16,6 +16,10 @@ in {
       fsType = "zfs";
       neededForBoot = true;
     };
+    "/etc/ssh" = {
+      fsType = "zfs";
+      neededForBoot = true;
+    };
     "${persistFolder}" = {
       device = "zroot/${systemDir}${persistFolder}";
       fsType = "zfs";

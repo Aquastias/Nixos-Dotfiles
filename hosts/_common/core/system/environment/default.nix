@@ -14,6 +14,7 @@ in {
         directories = [
           "/etc/nixos"
           "/etc/NetworkManager/system-connections"
+          "/etc/ssh"
           "/var/log"
           "/var/lib/bluetooth"
           "/var/lib/nixos"
