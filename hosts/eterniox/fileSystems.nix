@@ -17,7 +17,6 @@ in {
       neededForBoot = true;
     };
     "/etc/ssh" = {
-      fsType = "zfs";
       neededForBoot = true;
     };
     "${persistFolder}" = {
