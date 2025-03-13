@@ -25,7 +25,7 @@
         PasswordAuthentication = false;
         PermitRootLogin = "no";
       };
-      startWhenNeeded = true;
+      startWhenNeeded = false;
     };
   };
 }
