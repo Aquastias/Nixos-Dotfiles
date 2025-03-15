@@ -1,22 +1,51 @@
 {
   configVars,
+  config,
   inputs,
   ...
 }: let
-  inherit (configVars) persistFolder entities;
+  inherit (configVars) entities persistFolder secrets;
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
-  users.users."${userName}" = {
-    initialPassword = "password";
-    isNormalUser = true;
-    description = "Aquastias";
-    extraGroups = [
-      "audio"
-      "gpg" # For GnuPG
-      "scanner" # To be able to see scanner devices
-      "wheel" # Enable ‘sudo’ for the user.
-    ];
+  imports = [
+    inputs.sops-nix.homeManagerModules.sops
+  ];
+
+  sops = {
+    # This is the user key that needs to have been copied to this location on hosts
+    age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
+
+    defaultSopsFile = "${secrets.path}";
+    validateSopsFiles = false;
+
+    secrets = {
+      # Decrypt user password to /run/secrets-for-users so it can be used to its creation
+      "${userName}-password" = {
+        neededForUsers = true;
+      };
+      "private_keys/${userName}" = {
+        path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
+      };
+    };
+  };
+
+  users = {
+    # Required for password to be set via sops during system activation
+    mutableUsers = false;
+    users = {
+      "${userName}" = {
+        hashedPasswordFile = config.sops.secrets."${userName}-password".path;
+        isNormalUser = true;
+        description = "Aquastias";
+        extraGroups = [
+          "audio"
+          "gpg" # For GnuPG
+          "scanner" # To be able to see scanner devices
+          "wheel" # Enable ‘sudo’ for the user.
+        ];
+      };
+    };
   };
 
   home-manager = {
@@ -40,6 +69,7 @@ in {
             "Public"
             "Templates"
             "Videos"
+            ".config/sops"
             ".gnupg"
             ".ssh"
             ".mozilla"
@@ -55,6 +85,14 @@ in {
             ".screenrc"
           ];
           allowOther = true;
+        };
+      };
+
+      openssh = {
+        authorizedKeys = {
+          keys = [
+            (builtins.readFile "./keys/id_${userName}.pub")
+          ];
         };
       };
 

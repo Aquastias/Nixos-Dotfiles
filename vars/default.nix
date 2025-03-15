@@ -1,10 +1,8 @@
 {...}: {
   # Only primitive values, nothing dynamic.
-  flake = {
-    path = ../flake.nix;
-  };
-  functions = {
-    path = ../functions;
+
+  disko = {
+    systemDir = "system";
   };
   entities = {
     home = {
@@ -13,6 +11,12 @@
     users = {
       path = ../entities/users;
     };
+  };
+  flake = {
+    path = ../flake.nix;
+  };
+  functions = {
+    path = ../functions;
   };
   hosts = {
     path = ../hosts;
@@ -33,10 +37,10 @@
       };
     };
   };
-  disko = {
-    systemDir = "system";
-  };
   persistFolder = "/persist";
+  secrets = {
+    path = ../secrets.yaml;
+  };
   system = "x86_64-linux";
   version = "24.11";
 }
