@@ -1,4 +1,7 @@
-{...}: {
+{configVars, ...}: let
+  inherit (configVars) disko persistFolder;
+  inherit (disko) systemDir;
+in {
   services = {
     openssh = {
       enable = true;
@@ -10,13 +13,13 @@
       '';
       hostKeys = [
         {
+          path = "${persistFolder}/${systemDir}/etc/ssh/ssh_host_ed25519_key";
           type = "ed25519";
-          path = "/etc/ssh/ssh_host_ed25519_key";
         }
         {
-          type = "rsa";
           bits = 4096;
-          path = "/etc/ssh/ssh_host_rsa_key";
+          path = "${persistFolder}/${systemDir}/etc/ssh/ssh_host_rsa_key";
+          type = "rsa";
         }
       ];
       ports = [22];
