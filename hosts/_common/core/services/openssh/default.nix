@@ -1,8 +1,4 @@
-{
-  configVars,
-  config,
-  ...
-}: let
+{configVars, ...}: let
   inherit (configVars) disko persistFolder;
   inherit (disko) systemDir;
 in {
@@ -34,30 +30,5 @@ in {
       };
       startWhenNeeded = false;
     };
-  };
-  system.activationScripts.persist-ssh-keys.text = ''
-    mkdir -p "${persistFolder}/${systemDir}"
-
-    # Check for and generate RSA key
-    if [ ! -e "${persistFolder}/${systemDir}/ssh_host_rsa_key" ]; then
-      ssh-keygen -t rsa -b 4096 -f "${persistFolder}/${systemDir}/ssh_host_rsa_key" -N ""
-    fi
-
-    # Check for and generate ED25519 key
-    if [ ! -e "${persistFolder}/${systemDir}/ssh_host_ed25519_key" ]; then
-      ssh-keygen -t ed25519 -f "${persistFolder}/${systemDir}/ssh_host_ed25519_key" -N ""
-    fi
-
-    mount --bind "${persistFolder}/${systemDir}" /etc/ssh
-  '';
-  # Create a dummy service to represent the activation script
-  systemd.services.persist-ssh-keys-service = {
-    description = "Persist SSH Keys";
-    before = ["sops-nix.service"];
-    wantedBy = ["multi-user.target"]; # Or another appropriate target
-    script = config.system.activationScripts.persist-ssh-keys.text;
-    # Make sure the script runs before other services that might need it
-    partOf = ["multi-user.target"];
-    remainAfterExit = true; # Keep the service around
   };
 }
