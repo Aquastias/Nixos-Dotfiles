@@ -24,7 +24,7 @@ in {
     openssh = {
       authorizedKeys = {
         keys = [
-          (builtins.readFile ../entities/users/aquastias/keys/id_aquastias.pub)
+          (builtins.readFile ../../entities/users/aquastias/keys/id_aquastias.pub)
         ];
       };
     };
