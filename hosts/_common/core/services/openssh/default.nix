@@ -31,4 +31,20 @@ in {
       startWhenNeeded = false;
     };
   };
+  system.activationScripts.persist-ssh-keys.text = ''
+    mkdir -p "${persistFolder}/${systemDir}"
+
+    # Check for and generate RSA key
+    if [ ! -e "${persistFolder}/${systemDir}/ssh_host_rsa_key" ]; then
+      ssh-keygen -t rsa -b 4096 -f "${persistFolder}/${systemDir}/ssh_host_rsa_key" -N ""
+    fi
+
+    # Check for and generate ED25519 key
+    if [ ! -e "${persistFolder}/${systemDir}/ssh_host_ed25519_key" ]; then
+      ssh-keygen -t ed25519 -f "${persistFolder}/${systemDir}/ssh_host_ed25519_key" -N ""
+    fi
+
+    mount --bind "${persistFolder}/${systemDir}" /etc/ssh
+  '';
+  system.activationScripts.persist-ssh-keys.before = ["sops-nix.service"];
 }
