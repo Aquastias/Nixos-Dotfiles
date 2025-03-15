@@ -21,10 +21,17 @@ in {
         neededForUsers = true;
       };
       "private_keys/${userName}" = {
+        mode = "0600";
+        owner = "${userName}";
         path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
       };
     };
   };
+
+  system.activationScripts.homeAgeKeysFolderPermissions = ''
+    mkdir -p /home/${userName}/.config/sops/age
+    chown ${userName}:users /home/${userName}/.config/sops/age
+  '';
 
   users = {
     # Required for password to be set via sops during system activation
