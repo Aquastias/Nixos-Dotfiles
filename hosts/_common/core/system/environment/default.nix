@@ -50,6 +50,7 @@ in {
       nix-output-monitor
       nixd
       nvd
+      openssh
       openssl
       sbctl
       seahorse
