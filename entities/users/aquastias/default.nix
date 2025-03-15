@@ -12,11 +12,11 @@ in {
     SOPS_AGE_KEY_FILE = "/home/${userName}/.config/sops/age/keys.txt";
   };
   sops = {
-    # This is the user key that needs to have been copied to this location on hosts
-    age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
+    # # This is the user key that needs to have been copied to this location on hosts
+    # age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
 
-    defaultSopsFile = secrets.path;
-    validateSopsFiles = false;
+    # defaultSopsFile = secrets.path;
+    # validateSopsFiles = false;
 
     secrets = {
       # Decrypt user password to /run/secrets-for-users so it can be used to its creation
