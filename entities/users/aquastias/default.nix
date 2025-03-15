@@ -85,14 +85,6 @@ in {
         };
       };
 
-      openssh = {
-        authorizedKeys = {
-          keys = [
-            (builtins.readFile ./keys/id_${userName}.pub)
-          ];
-        };
-      };
-
       programs = {
         git = {
           inherit userEmail userName;

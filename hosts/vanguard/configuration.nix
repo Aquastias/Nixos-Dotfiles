@@ -20,6 +20,16 @@ in {
     ]
     ++ builtins.map (user: "${entities.users.path}/${user}") users;
 
+  users.users = {
+    openssh = {
+      authorizedKeys = {
+        keys = [
+          (builtins.readFile ../entities/users/aquastias/keys/id_aquastias.pub)
+        ];
+      };
+    };
+  };
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
