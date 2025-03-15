@@ -88,7 +88,7 @@ in {
       openssh = {
         authorizedKeys = {
           keys = [
-            (builtins.readFile "./keys/id_${userName}.pub")
+            (builtins.readFile ./keys/id_${userName}.pub)
           ];
         };
       };
