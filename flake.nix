@@ -81,7 +81,6 @@
           // extraSpecialArgs;
         home-manager.sharedModules = [
           arkenfox.hmModules.default
-          sops-nix.homeManagerModules.sops
         ];
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;

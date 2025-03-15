@@ -8,11 +8,14 @@
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
+  environment.sessionVariables = {
+    SOPS_AGE_KEY_FILE = "/home/${userName}/.config/sops/age/keys.txt";
+  };
   sops = {
     # This is the user key that needs to have been copied to this location on hosts
     age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
 
-    defaultSopsFile = "${secrets.path}";
+    defaultSopsFile = secrets.path;
     validateSopsFiles = false;
 
     secrets = {
@@ -24,14 +27,10 @@ in {
         mode = "0600";
         owner = "${userName}";
         path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
+        sopsFile = secrets.path;
       };
     };
   };
-
-  system.activationScripts.homeAgeKeysFolderPermissions = ''
-    mkdir -p /home/${userName}/.config/sops/age
-    chown ${userName}:users /home/${userName}/.config/sops/age
-  '';
 
   users = {
     # Required for password to be set via sops during system activation

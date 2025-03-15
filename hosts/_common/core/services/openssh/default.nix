@@ -1,35 +1,9 @@
-{
-  configVars,
-  config,
-  ...
-}: let
+{configVars, ...}: let
   inherit (configVars) disko persistFolder;
   inherit (disko) systemDir;
+
   sshKeyDir = "${persistFolder}/${systemDir}/etc/ssh";
 in {
-  system.activationScripts.generate-ssh-keys.text = ''
-    mkdir -p "${sshKeyDir}"
-    if [ ! -e "${sshKeyDir}/ssh_host_rsa_key" ]; then
-      ssh-keygen -t rsa -b 4096 -f "${sshKeyDir}/ssh_host_rsa_key" -N ""
-    fi
-    if [ ! -e "${sshKeyDir}/ssh_host_ed25519_key" ]; then
-      ssh-keygen -t ed25519 -f "${sshKeyDir}/ssh_host_ed25519_key" -N ""
-    fi
-    mount --bind "${sshKeyDir}" /etc/ssh
-  '';
-
-  systemd.services.generate-ssh-keys-service = {
-    description = "Generate and Persist SSH Keys";
-    before = ["sops-nix.service"];
-    wantedBy = ["multi-user.target"];
-    script = config.system.activationScripts.generate-ssh-keys.text;
-    requires = ["local-fs.target"];
-    after = ["local-fs.target"];
-    unitConfig = {
-      Type = "oneshot";
-      Restart = "no";
-    };
-  };
   services = {
     openssh = {
       enable = true;

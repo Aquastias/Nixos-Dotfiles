@@ -1,15 +1,7 @@
-{
-  inputs,
-  configVars,
-  ...
-}: let
+{configVars, ...}: let
   inherit (configVars) disko persistFolder secrets;
   inherit (disko) systemDir;
 in {
-  imports = [
-    inputs.sops-nix.nixosModules.sops
-  ];
-
   sops = {
     defaultSopsFile = "${secrets.path}";
     gnupg.sshKeyPaths = [];
