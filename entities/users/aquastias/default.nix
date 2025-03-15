@@ -8,10 +8,6 @@
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
-  imports = [
-    inputs.sops-nix.homeManagerModules.sops
-  ];
-
   sops = {
     # This is the user key that needs to have been copied to this location on hosts
     age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
@@ -53,6 +49,7 @@ in {
       imports = [
         entities.home.path
         inputs.impermanence.homeManagerModules.impermanence
+        inputs.sops-nix.homeManagerModules.sops
       ];
 
       home = {
