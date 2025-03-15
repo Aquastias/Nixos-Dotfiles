@@ -12,6 +12,7 @@ in {
 
   sops = {
     defaultSopsFile = "${secrets.path}";
+    gnupg.sshKeyPaths = [];
     validateSopsFiles = false;
 
     age = {
@@ -19,7 +20,7 @@ in {
       keyFile = "/var/lib/sops-nix/key.txt";
       # Generate a new key if the key specified above does not exist
       generateKey = true;
-      # Automatically import host SSH key as age keys
+      # Automatically import host SSH keys as age keys
       # This needs to be the /persist path,
       # or else it wont be available when needed to create user passwords etc
       sshKeyPaths = ["${persistFolder}/${systemDir}/etc/ssh/ssh_host_ed25519_key"];
