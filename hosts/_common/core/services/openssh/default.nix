@@ -23,7 +23,6 @@ in {
     before = ["sops-nix.service"];
     wantedBy = ["multi-user.target"];
     script = config.system.activationScripts.generate-ssh-keys.text;
-    conditionFirstBoot = true;
     requires = ["local-fs.target"];
     after = ["local-fs.target"];
     oneshot = true;
