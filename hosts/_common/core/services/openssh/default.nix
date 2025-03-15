@@ -25,7 +25,10 @@ in {
     script = config.system.activationScripts.generate-ssh-keys.text;
     requires = ["local-fs.target"];
     after = ["local-fs.target"];
-    oneshot = true;
+    unitConfig = {
+      Type = "oneshot";
+      Restart = "no";
+    };
   };
   services = {
     openssh = {
