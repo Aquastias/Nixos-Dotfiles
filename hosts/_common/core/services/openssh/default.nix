@@ -1,4 +1,8 @@
-{configVars, ...}: let
+{
+  configVars,
+  config,
+  ...
+}: let
   inherit (configVars) disko persistFolder;
   inherit (disko) systemDir;
 in {
@@ -46,5 +50,14 @@ in {
 
     mount --bind "${persistFolder}/${systemDir}" /etc/ssh
   '';
-  system.activationScripts.persist-ssh-keys.before = ["sops-nix.service"];
+  # Create a dummy service to represent the activation script
+  systemd.services.persist-ssh-keys-service = {
+    description = "Persist SSH Keys";
+    before = ["sops-nix.service"];
+    wantedBy = ["multi-user.target"]; # Or another appropriate target
+    script = config.system.activationScripts.persist-ssh-keys.text;
+    # Make sure the script runs before other services that might need it
+    partOf = ["multi-user.target"];
+    remainAfterExit = true; # Keep the service around
+  };
 }
