@@ -31,6 +31,10 @@ in {
         PermitRootLogin = "no";
       };
       startWhenNeeded = false;
+      unitConfig = {
+        Before = "sops-nix.service";
+        After = "network.target";
+      };
     };
   };
 }
