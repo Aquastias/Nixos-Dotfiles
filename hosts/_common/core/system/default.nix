@@ -1,5 +1,6 @@
 {...}: {
   imports = [
+    ./activationScripts
     ./audio
     ./boot
     ./environment
