@@ -8,36 +8,37 @@
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
 in {
-  environment.sessionVariables = {
-    SOPS_AGE_KEY_FILE = "/home/${userName}/.config/sops/age/keys.txt";
-  };
-  sops = {
-    # # This is the user key that needs to have been copied to this location on hosts
-    # age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
+  # environment.sessionVariables = {
+  #   SOPS_AGE_KEY_FILE = "/home/${userName}/.config/sops/age/keys.txt";
+  # };
+  # sops = {
+  #   # # This is the user key that needs to have been copied to this location on hosts
+  #   age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
 
-    defaultSopsFile = secrets.path;
-    validateSopsFiles = false;
+  #   defaultSopsFile = secrets.path;
+  #   validateSopsFiles = false;
 
-    secrets = {
-      # Decrypt user password to /run/secrets-for-users so it can be used to its creation
-      "${userName}-password" = {
-        neededForUsers = true;
-      };
-      "private_keys/${userName}" = {
-        mode = "0600";
-        owner = "${userName}";
-        path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
-        sopsFile = secrets.path;
-      };
-    };
-  };
+  #   secrets = {
+  #     # Decrypt user password to /run/secrets-for-users so it can be used to its creation
+  #     "${userName}-password" = {
+  #       neededForUsers = true;
+  #     };
+  #     "private_keys/${userName}" = {
+  #       mode = "0600";
+  #       owner = "${userName}";
+  #       path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
+  #       sopsFile = secrets.path;
+  #     };
+  #   };
+  # };
 
   users = {
     # Required for password to be set via sops during system activation
-    mutableUsers = false;
+    mutableUsers = true;
     users = {
       "${userName}" = {
-        hashedPasswordFile = config.sops.secrets."${userName}-password".path;
+        # hashedPasswordFile = config.sops.secrets."${userName}-password".path;
+        initialPassword = "password";
         isNormalUser = true;
         description = "Aquastias";
         extraGroups = [
