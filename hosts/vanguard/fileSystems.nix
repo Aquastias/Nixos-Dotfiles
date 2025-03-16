@@ -16,6 +16,7 @@ in {
       fsType = "zfs";
       neededForBoot = true;
     };
+    # SOPS will use the host SSH keys to decrypt secrets
     "/etc/ssh" = {
       neededForBoot = true;
     };

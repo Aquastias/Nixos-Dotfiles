@@ -8,7 +8,7 @@
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
   homeDir = "/home/${userName}";
-  homeSopsAgeDir = "${homeDir}/.config/sops/age";
+  homeSopsAgeDir = "${persistFolder}${homeDir}/.config/sops/age";
 in {
   environment.sessionVariables = {
     SOPS_AGE_KEY_FILE = "${homeSopsAgeDir}/keys.txt";
@@ -32,7 +32,7 @@ in {
       "private_keys/${userName}" = {
         mode = "0600";
         owner = "${userName}";
-        path = "${homeDir}/.ssh/id_${userName}";
+        path = "${persistFolder}${homeDir}/.ssh/id_${userName}";
         sopsFile = secrets.path;
       };
     };
@@ -66,7 +66,6 @@ in {
       imports = [
         entities.home.path
         inputs.impermanence.homeManagerModules.impermanence
-        inputs.sops-nix.homeManagerModules.sops
       ];
 
       home = {
