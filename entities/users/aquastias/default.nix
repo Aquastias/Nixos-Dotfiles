@@ -34,7 +34,7 @@ in {
 
   users = {
     # Required for password to be set via sops during system activation
-    mutableUsers = true;
+    # mutableUsers = false;
     users = {
       "${userName}" = {
         # hashedPasswordFile = config.sops.secrets."${userName}-password".path;
