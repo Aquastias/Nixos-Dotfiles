@@ -2,7 +2,7 @@
   inherit (configVars) disko persistFolder;
   inherit (disko) systemDir;
 
-  sshKeyDir = "${persistFolder}/${systemDir}/etc/ssh";
+  sshKeyDir = "/etc/ssh";
 in {
   services = {
     openssh = {
@@ -38,17 +38,6 @@ in {
         PermitRootLogin = "no";
       };
       startWhenNeeded = false;
-    };
-  };
-
-  systemd.services.openssh.after = ["network.target"];
-  systemd.services.openssh.wants = ["network-online.target"];
-  systemd.services.openssh.before = ["sops-nix.service"];
-  systemd.services.openssh.requires = ["disko.service"];
-  systemd.services.sops-nix = {
-    serviceConfig = {
-      Restart = "on-failure";
-      RestartSec = "10";
     };
   };
 }

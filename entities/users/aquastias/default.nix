@@ -14,7 +14,7 @@ in {
 
   sops = {
     # # This is the user key that needs to have been copied to this location on hosts
-    age.keyFile = "${persistFolder}/home/${userName}/.config/sops/age/keys.txt";
+    age.keyFile = "/home/${userName}/.config/sops/age/keys.txt";
 
     defaultSopsFile = secrets.path;
     validateSopsFiles = false;
@@ -27,7 +27,7 @@ in {
       "private_keys/${userName}" = {
         mode = "0600";
         owner = "${userName}";
-        path = "${persistFolder}/home/${userName}/.ssh/id_${userName}";
+        path = "/home/${userName}/.ssh/id_${userName}";
         sopsFile = secrets.path;
       };
     };
