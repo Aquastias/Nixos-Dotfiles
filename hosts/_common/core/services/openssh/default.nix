@@ -45,4 +45,10 @@ in {
   systemd.services.openssh.wants = ["network-online.target"];
   systemd.services.openssh.before = ["sops-nix.service"];
   systemd.services.openssh.requires = ["disko.service"];
+  systemd.services.sops-nix = {
+    serviceConfig = {
+      Restart = "on-failure";
+      RestartSec = "10";
+    };
+  };
 }
