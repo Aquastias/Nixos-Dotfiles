@@ -5,7 +5,7 @@
   sshDir = "${persistFolder}/${systemDir}/etc/ssh";
 in {
   sops = {
-    defaultSopsFile = "${secrets.path}";
+    defaultSopsFile = secrets.path;
     gnupg.sshKeyPaths = [];
     validateSopsFiles = false;
 
