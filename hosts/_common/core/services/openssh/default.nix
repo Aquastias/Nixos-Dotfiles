@@ -7,12 +7,6 @@ in {
   services = {
     openssh = {
       enable = true;
-      extraConfig = ''
-        # Use only strong ciphers and key exchange algorithms
-        Ciphers aes256-ctr,aes192-ctr,aes128-ctr
-        KexAlgorithms diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256
-        MACs hmac-sha2-256,hmac-sha2-512
-      '';
       hostKeys = [
         {
           path = "${sshKeyDir}/ssh_host_ed25519_key";
@@ -26,15 +20,24 @@ in {
       ];
       ports = [22];
       settings = {
+        Ciphers = [
+          "aes256-ctr"
+          "aes192-ctr"
+          "aes128-ctr"
+        ];
         KbdInteractiveAuthentication = false;
+        KexAlgorithms = [
+          "diffie-hellman-group-exchange-sha256"
+          "diffie-hellman-group14-sha256"
+        ];
+        Macs = [
+          "hmac-sha2-256"
+          "hmac-sha2-512"
+        ];
         PasswordAuthentication = false;
         PermitRootLogin = "no";
       };
       startWhenNeeded = false;
-      unitConfig = {
-        Before = "sops-nix.service";
-        After = "network.target";
-      };
     };
   };
 }
