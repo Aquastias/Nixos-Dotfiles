@@ -2,7 +2,7 @@
   inherit (configVars) disko persistFolder;
   inherit (disko) systemDir;
 
-  sshKeyDir = "/etc/ssh";
+  sshKeyDir = "${persistFolder}/${systemDir}/etc/ssh";
 in {
   services = {
     openssh = {

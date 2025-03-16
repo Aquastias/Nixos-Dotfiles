@@ -7,35 +7,40 @@
   inherit (configVars) entities persistFolder secrets;
   userName = "aquastias";
   userEmail = "alexandrumlakar@gmail.com";
+  homeDir = "/home/${userName}";
+  homeSopsAgeDir = "${homeDir}/.config/sops/age";
 in {
   environment.sessionVariables = {
-    SOPS_AGE_KEY_FILE = "/home/${userName}/.config/sops/age/keys.txt";
+    SOPS_AGE_KEY_FILE = "${homeSopsAgeDir}/keys.txt";
   };
 
   sops = {
     # # This is the user key that needs to have been copied to this location on hosts
-    age.keyFile = "/home/${userName}/.config/sops/age/keys.txt";
+    age = {
+      keyFile = "${homeSopsAgeDir}/keys.txt";
+    };
 
     defaultSopsFile = secrets.path;
     validateSopsFiles = false;
 
     secrets = {
-      # Decrypt user password to /run/secrets-for-users so it can be used to its creation
+      # Decrypt user password to /run/secrets-for-users
+      # so it can be used to its creation
       "${userName}-password" = {
         neededForUsers = true;
       };
       "private_keys/${userName}" = {
         mode = "0600";
         owner = "${userName}";
-        path = "/home/${userName}/.ssh/id_${userName}";
+        path = "${homeDir}/.ssh/id_${userName}";
         sopsFile = secrets.path;
       };
     };
   };
 
   system.activationScripts."homeAgeKeysFolderPermissionsFor${userName}" = ''
-    mkdir -p /home/${userName}/.config/sops/age
-    chown ${userName}:users /home/${userName}/.config/sops/age
+    mkdir -p ${homeSopsAgeDir}
+    chown -R ${userName}:users ${homeSopsAgeDir}
   '';
 
   users = {
@@ -66,9 +71,9 @@ in {
 
       home = {
         username = userName;
-        homeDirectory = "/home/${userName}";
+        homeDirectory = "${homeDir}";
 
-        persistence."${persistFolder}/home/${userName}" = {
+        persistence."${persistFolder}${homeDir}" = {
           directories = [
             "Desktop"
             "Documents"
@@ -78,7 +83,7 @@ in {
             "Public"
             "Templates"
             "Videos"
-            ".config/sops"
+            ".config/sops/age"
             ".gnupg"
             ".ssh"
             ".mozilla"
