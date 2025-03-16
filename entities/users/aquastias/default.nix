@@ -15,7 +15,7 @@ in {
   };
 
   sops = {
-    # # This is the user key that needs to have been copied to this location on hosts
+    # This is the user key that needs to have been copied to this location on hosts
     age = {
       keyFile = "${homeSopsAgeDir}/keys.txt";
     };
@@ -82,7 +82,7 @@ in {
             "Public"
             "Templates"
             "Videos"
-            ".config/sops/age"
+            ".config"
             ".gnupg"
             ".ssh"
             ".mozilla"
