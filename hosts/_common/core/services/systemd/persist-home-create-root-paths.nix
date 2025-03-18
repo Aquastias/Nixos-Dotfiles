@@ -1,7 +1,7 @@
 {
-  lib,
   config,
   configVars,
+  lib,
   ...
 }: {
   systemd.services."persist-home-create-root-paths" = let
@@ -17,7 +17,7 @@
           if [[ ! -d ${userHome} ]]; then
               echo "Persistent home root folder '${userHome}' not found, creating..."
               mkdir -p --mode=${user.homeMode} ${userHome}
-              chown ${user.name}:${user.group} ${userHome}
+              chown -R ${user.name}:${user.group} ${userHome}
           fi
         ''
       )
@@ -25,21 +25,18 @@
 
     stringOfCommands = lib.concatLines listOfCommands;
   in {
-    script = stringOfCommands;
+    serviceConfig = {
+      StandardError = "journal";
+      StandardOutput = "journal";
+      Type = "oneshot";
+    };
     unitConfig = {
+      After = ["persist-home.mount"];
       Description = "Ensure users' home folders exist in the persistent filesystem";
       PartOf = ["local-fs.target"];
-      # The folder creation should happen after the persistent home path is mounted.
-      After = ["persist-home.mount"];
     };
-
-    serviceConfig = {
-      Type = "oneshot";
-      StandardOutput = "journal";
-      StandardError = "journal";
-    };
-
     # [Install]
     wantedBy = ["local-fs.target"];
+    script = stringOfCommands;
   };
 }
