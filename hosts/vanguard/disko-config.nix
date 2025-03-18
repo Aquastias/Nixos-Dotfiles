@@ -15,7 +15,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"]; #0077 for very strict
+                mountOptions = ["umask=0077"];
               };
             };
             swap = {
@@ -59,14 +59,14 @@
         };
 
         datasets = let
-          systemDir = "system";
+          systemDirName = "system";
           persistDir = "/persist";
           systemDatasets = {
-            "${systemDir}" = {
+            "${systemDirName}" = {
               type = "zfs_fs";
               options.mountpoint = "none";
             };
-            "${systemDir}/root" = {
+            "${systemDirName}/root" = {
               type = "zfs_fs";
               mountpoint = "/";
               options = {
@@ -75,20 +75,20 @@
                 keyformat = "passphrase";
                 keylocation = "prompt";
               };
-              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${systemDir}/root@blank$' || zfs snapshot zroot/${systemDir}/root@blank";
+              postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/${systemDirName}/root@blank$' || zfs snapshot zroot/${systemDirName}/root@blank";
             };
-            "${systemDir}/home" = {
+            "${systemDirName}/home" = {
               type = "zfs_fs";
               mountpoint = "/home";
               # Used by services.zfs.autoSnapshot options.
               options."com.sun:auto-snapshot" = "true";
             };
-            "${systemDir}/nix" = {
+            "${systemDirName}/nix" = {
               type = "zfs_fs";
               mountpoint = "/nix";
               options."com.sun:auto-snapshot" = "false";
             };
-            "${systemDir}${persistDir}" = {
+            "${systemDirName}${persistDir}" = {
               type = "zfs_fs";
               mountpoint = "${persistDir}";
               options."com.sun:auto-snapshot" = "false";
