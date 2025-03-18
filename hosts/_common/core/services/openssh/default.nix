@@ -1,20 +1,17 @@
 {configVars, ...}: let
-  inherit (configVars) disko persistDir;
-  inherit (disko) systemDir;
-
-  sshKeyDir = "${persistDir}/${systemDir}/etc/ssh";
+  inherit (configVars) sshDir;
 in {
   services = {
     openssh = {
       enable = true;
       hostKeys = [
         {
-          path = "${sshKeyDir}/ssh_host_ed25519_key";
+          path = "${sshDir}/ssh_host_ed25519_key";
           type = "ed25519";
         }
         {
           bits = 4096;
-          path = "${sshKeyDir}/ssh_host_rsa_key";
+          path = "${sshDir}/ssh_host_rsa_key";
           type = "rsa";
         }
       ];

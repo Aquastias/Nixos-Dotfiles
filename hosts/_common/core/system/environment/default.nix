@@ -9,7 +9,7 @@ in {
   environment = {
     # Backup to persistence directory so that files don't get removed at reboot
     persistence = {
-      "${persistDir}/${systemDir}" = {
+      "${persistDir}${systemDir}" = {
         hideMounts = true;
         directories = [
           "/etc/nixos"

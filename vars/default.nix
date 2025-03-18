@@ -2,7 +2,8 @@
   # Only primitive values, nothing dynamic.
 
   disko = {
-    systemDir = "system";
+    systemDir = "/system";
+    systemDirName = "system";
   };
   entities = {
     home = {
@@ -41,6 +42,7 @@
   secrets = {
     path = ../secrets.yaml;
   };
+  sshDir = "/persist/system/etc/ssh";
   system = "x86_64-linux";
   version = "24.11";
 }

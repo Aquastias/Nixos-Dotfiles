@@ -9,7 +9,7 @@
     };
     initrd = {
       postResumeCommands = lib.mkAfter ''
-        zfs rollback -r zroot/${configVars.disko.systemDir}/root@blank
+        zfs rollback -r zroot/${configVars.disko.systemDirName}/root@blank
       '';
     };
     loader = {

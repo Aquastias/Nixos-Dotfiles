@@ -6,12 +6,14 @@
 }: let
   inherit (configVars) entities persistDir secrets;
 
+  homeDir = "/home/${user.name}";
+  homePersistDir = "${persistDir}${homeDir}";
+  homeSopsAgeDir = "${homePersistDir}/.config/sops/age";
+
   user = {
     name = "aquastias";
     email = config.sops.secrets."${user.name}-email".path;
   };
-  homeDir = "/home/${user.name}";
-  homeSopsAgeDir = "${persistDir}${homeDir}/.config/sops/age";
 in {
   environment = {
     sessionVariables = {
@@ -28,7 +30,7 @@ in {
 
       home = {
         homeDirectory = "${homeDir}";
-        persistence."${persistDir}${homeDir}" = {
+        persistence."${homePersistDir}" = {
           allowOther = true;
           directories = [
             "Desktop"
@@ -86,7 +88,7 @@ in {
       "private_keys/${user.name}" = {
         mode = "0600";
         owner = "${user.name}";
-        path = "${persistDir}${homeDir}/.ssh/id_${user.name}";
+        path = "${homePersistDir}/.ssh/id_${user.name}";
         sopsFile = secrets.path;
       };
     };
