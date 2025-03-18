@@ -101,8 +101,6 @@ in {
   };
 
   users = {
-    # Required for password to be set via sops during system activation
-    mutableUsers = false;
     users = {
       "${user.name}" = {
         description = "Spark";
