@@ -1,14 +1,77 @@
 {
+  config,
   configVars,
   inputs,
   ...
 }: let
-  userName = "spark";
-  userEmail = "alexandrumlakar@gmail.com";
+  inherit (configVars) entities persistFolder secrets;
+
+  user = {
+    name = "spark";
+    email = config.sops.secrets."${user.name}-email".path;
+  };
+  homeDir = "/home/${user.name}";
+  homeSopsAgeDir = "${persistFolder}${homeDir}/.config/sops/age";
 in {
-  users.users."${userName}" = {
-    initialPassword = "password";
-    isNormalUser = true;
+  environment = {
+    sessionVariables = {
+      SOPS_AGE_KEY_FILE = "${homeSopsAgeDir}/keys.txt";
+    };
+  };
+
+  home-manager = {
+    users."${user.name}" = {
+      imports = [
+        entities.home.path
+        inputs.impermanence.homeManagerModules.impermanence
+      ];
+
+      home = {
+        homeDirectory = "/home/${user.name}";
+        username = user.name;
+      };
+
+      programs = {
+        git = {
+          userEmail = user.email;
+          userName = user.name;
+        };
+      };
+    };
+  };
+
+  sops = {
+    # This is the user key that needs to have been copied to this location on hosts
+    age = {
+      keyFile = "${homeSopsAgeDir}/keys.txt";
+    };
+    defaultSopsFile = secrets.path;
+    secrets = {
+      # Decrypt user password to /run/secrets-for-users
+      # so it can be used to its creation
+      "${user.name}-password" = {
+        neededForUsers = true;
+      };
+      # "private_keys/${user.name}" = {
+      #   mode = "0600";
+      #   owner = "${user.name}";
+      #   path = "${persistFolder}${homeDir}/.ssh/id_${user.name}";
+      #   sopsFile = secrets.path;
+      # };
+    };
+    validateSopsFiles = false;
+  };
+
+  system = {
+    activationScripts = {
+      "homeAgeKeysFolderPermissionsFor${user.name}" = ''
+        mkdir -p ${homeSopsAgeDir}
+        chown -R ${user.name}:users ${homeSopsAgeDir}
+      '';
+    };
+  };
+
+  users.users."${user.name}" = {
     description = "Spark";
     extraGroups = [
       "audio"
@@ -16,25 +79,7 @@ in {
       "scanner" # To be able to see scanner devices
       "wheel" # Enable ‘sudo’ for the user.
     ];
-  };
-
-  home-manager = {
-    users."${userName}" = {
-      imports = [
-        configVars.entities.home.path
-        inputs.impermanence.homeManagerModules.impermanence
-      ];
-
-      home = {
-        username = userName;
-        homeDirectory = "/home/${userName}";
-      };
-
-      programs = {
-        git = {
-          inherit userEmail userName;
-        };
-      };
-    };
+    hashedPasswordFile = config.sops.secrets."${user.name}-password".path;
+    isNormalUser = true;
   };
 }
