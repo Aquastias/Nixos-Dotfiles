@@ -2,11 +2,6 @@
   description = "Aquastias's Nix-Config";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    nur.url = "github:nix-community/NUR";
-
     arkenfox = {
       url = "github:dwarfmaster/arkenfox-nixos";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,31 +17,43 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence = {
+      url = "github:nix-community/impermanence";
+    };
+
+    nixpkgs = {
+      url = "github:nixos/nixpkgs/nixos-24.11";
+    };
+
+    nixpkgs-unstable = {
+      url = "github:nixos/nixpkgs/nixos-unstable";
+    };
+
+    nur = {
+      url = "github:nix-community/NUR";
+    };
+
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    impermanence = {
-      url = "github:nix-community/impermanence";
-    };
   };
 
   outputs = {
-    self,
-    nixpkgs,
-    home-manager,
     arkenfox,
-    nur,
     disko,
+    home-manager,
     impermanence,
+    nixpkgs,
+    nur,
+    self,
     sops-nix,
     ...
   } @ inputs: let
+    configVars = import ./vars {inherit inputs lib;};
+
     inherit (self) outputs;
     inherit (nixpkgs) lib;
-
-    configVars = import ./vars {inherit inputs lib;};
     inherit (configVars) functions system hosts;
 
     pkgs = import nixpkgs {
@@ -57,13 +64,13 @@
     };
 
     extraSpecialArgs = {
-      inherit inputs;
-      inherit outputs;
       inherit configVars;
+      inherit inputs;
       inherit nixpkgs;
-      inherit system;
-      inherit pkgs;
       inherit nur;
+      inherit outputs;
+      inherit pkgs;
+      inherit system;
 
       firefoxAddons = pkgs.nur.repos.rycee.firefox-addons;
     };
@@ -74,24 +81,22 @@
       impermanence.nixosModules.impermanence
       sops-nix.nixosModules.sops
       {
-        home-manager.extraSpecialArgs =
-          {
-            hostName = host;
-          }
-          // extraSpecialArgs;
-        home-manager.sharedModules = [
-          arkenfox.hmModules.default
-          sops-nix.homeManagerModules.sops
-        ];
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.backupFileExtension = "backup";
+        home-manager = {
+          backupFileExtension = "backup";
+          extraSpecialArgs = {hostName = host;} // extraSpecialArgs;
+          sharedModules = [
+            arkenfox.hmModules.default
+            sops-nix.homeManagerModules.sops
+          ];
+          useGlobalPkgs = true;
+          useUserPackages = true;
+        };
       }
     ];
 
     host-utils = import "${functions.path}/host-utils.nix" {
-      inherit lib;
       inherit extraSpecialArgs;
+      inherit lib;
       inherit shared-modules;
 
       hostsPath = hosts.path;
