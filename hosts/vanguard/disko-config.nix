@@ -60,7 +60,7 @@
 
         datasets = let
           systemDir = "system";
-          persistFolder = "/persist";
+          persistDir = "/persist";
           systemDatasets = {
             "${systemDir}" = {
               type = "zfs_fs";
@@ -88,9 +88,9 @@
               mountpoint = "/nix";
               options."com.sun:auto-snapshot" = "false";
             };
-            "${systemDir}${persistFolder}" = {
+            "${systemDir}${persistDir}" = {
               type = "zfs_fs";
-              mountpoint = "${persistFolder}";
+              mountpoint = "${persistDir}";
               options."com.sun:auto-snapshot" = "false";
             };
           };

@@ -1,16 +1,16 @@
 {configVars, ...}: let
-  inherit (configVars) disko persistFolder;
+  inherit (configVars) disko persistDir;
   inherit (disko) systemDir;
 in {
   system.activationScripts.persistDirs = ''
-    mkdir -p ${persistFolder}/${systemDir}/etc/nixos
-    mkdir -p ${persistFolder}/${systemDir}/etc/NetworkManager/system-connections
-    mkdir -p ${persistFolder}/${systemDir}/etc/ssh
-    mkdir -p ${persistFolder}/${systemDir}/var/keys
-    mkdir -p ${persistFolder}/${systemDir}/var/log
-    mkdir -p ${persistFolder}/${systemDir}/var/lib/colord
-    mkdir -p ${persistFolder}/${systemDir}/var/lib/bluetooth
-    mkdir -p ${persistFolder}/${systemDir}/var/lib/nixos
-    mkdir -p ${persistFolder}/${systemDir}/var/lib/systemd/coredump
+    mkdir -p ${persistDir}/${systemDir}/etc/nixos
+    mkdir -p ${persistDir}/${systemDir}/etc/NetworkManager/system-connections
+    mkdir -p ${persistDir}/${systemDir}/etc/ssh
+    mkdir -p ${persistDir}/${systemDir}/var/keys
+    mkdir -p ${persistDir}/${systemDir}/var/log
+    mkdir -p ${persistDir}/${systemDir}/var/lib/colord
+    mkdir -p ${persistDir}/${systemDir}/var/lib/bluetooth
+    mkdir -p ${persistDir}/${systemDir}/var/lib/nixos
+    mkdir -p ${persistDir}/${systemDir}/var/lib/systemd/coredump
   '';
 }

@@ -1,8 +1,8 @@
 {configVars, ...}: let
-  inherit (configVars) disko persistFolder secrets;
+  inherit (configVars) disko persistDir secrets;
   inherit (disko) systemDir;
 
-  sshDir = "${persistFolder}/${systemDir}/etc/ssh";
+  sshDir = "${persistDir}/${systemDir}/etc/ssh";
 in {
   sops = {
     defaultSopsFile = secrets.path;
@@ -11,7 +11,7 @@ in {
 
     age = {
       # This will use an age key that is already expected to be in the filesystem
-      keyFile = "${persistFolder}/${systemDir}/var/lib/sops-nix/key.txt";
+      keyFile = "${persistDir}/${systemDir}/var/lib/sops-nix/key.txt";
       # Generate a new key if the key specified above does not exist
       generateKey = true;
       # Automatically import host SSH keys as age keys

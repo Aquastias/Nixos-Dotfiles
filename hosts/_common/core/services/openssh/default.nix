@@ -1,8 +1,8 @@
 {configVars, ...}: let
-  inherit (configVars) disko persistFolder;
+  inherit (configVars) disko persistDir;
   inherit (disko) systemDir;
 
-  sshKeyDir = "${persistFolder}/${systemDir}/etc/ssh";
+  sshKeyDir = "${persistDir}/${systemDir}/etc/ssh";
 in {
   services = {
     openssh = {

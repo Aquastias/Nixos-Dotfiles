@@ -3,13 +3,13 @@
   configVars,
   ...
 }: let
-  inherit (configVars) disko persistFolder;
+  inherit (configVars) disko persistDir;
   inherit (disko) systemDir;
 in {
   environment = {
     # Backup to persistence directory so that files don't get removed at reboot
     persistence = {
-      "${persistFolder}/${systemDir}" = {
+      "${persistDir}/${systemDir}" = {
         hideMounts = true;
         directories = [
           "/etc/nixos"
@@ -61,7 +61,7 @@ in {
       zfs
     ];
     sessionVariables = {
-      FLAKE = "${persistFolder}/nixos";
+      FLAKE = "${persistDir}/nixos";
       NIXOS_OZONE_WL = "1";
     };
   };

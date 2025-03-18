@@ -1,5 +1,5 @@
 {configVars, ...}: let
-  inherit (configVars) disko persistFolder;
+  inherit (configVars) disko persistDir;
   inherit (disko) systemDir;
 in {
   fileSystems = {
@@ -19,8 +19,8 @@ in {
     "/etc/ssh" = {
       neededForBoot = true;
     };
-    "${persistFolder}" = {
-      device = "zroot/${systemDir}${persistFolder}";
+    "${persistDir}" = {
+      device = "zroot/${systemDir}${persistDir}";
       fsType = "zfs";
       neededForBoot = true;
     };

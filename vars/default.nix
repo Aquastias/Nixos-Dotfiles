@@ -37,7 +37,7 @@
       };
     };
   };
-  persistFolder = "/persist";
+  persistDir = "/persist";
   secrets = {
     path = ../secrets.yaml;
   };
