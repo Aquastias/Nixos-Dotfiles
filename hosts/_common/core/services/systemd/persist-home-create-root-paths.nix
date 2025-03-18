@@ -6,6 +6,7 @@
 }: {
   systemd.services."persist-home-create-root-paths" = let
     inherit (configVars) persistDir;
+
     persistentHomesRoot = "${persistDir}";
 
     listOfCommands =
