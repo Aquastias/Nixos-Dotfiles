@@ -1,18 +1,18 @@
 {configVars, ...}: let
   inherit (configVars) disko persistDir;
-  inherit (disko) systemDir;
+  inherit (disko) systemDirName;
 in {
   fileSystems = {
     "/" = {
-      device = "zroot/${systemDir}/root";
+      device = "zroot/${systemDirName}/root";
       fsType = "zfs";
     };
     "/home" = {
-      device = "zroot/${systemDir}/home";
+      device = "zroot/${systemDirName}/home";
       fsType = "zfs";
     };
     "/nix" = {
-      device = "zroot/${systemDir}/nix";
+      device = "zroot/${systemDirName}/nix";
       fsType = "zfs";
       neededForBoot = true;
     };
@@ -20,7 +20,7 @@ in {
       neededForBoot = true;
     };
     "${persistDir}" = {
-      device = "zroot/${systemDir}${persistDir}";
+      device = "zroot/${systemDirName}${persistDir}";
       fsType = "zfs";
       neededForBoot = true;
     };
