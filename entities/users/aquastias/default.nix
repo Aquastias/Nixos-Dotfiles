@@ -4,11 +4,13 @@
   inputs,
   ...
 }: let
-  inherit (configVars) entities persistDir secrets;
+  inherit (configVars) entities persistDir;
 
   homeDir = "/home/${user.name}";
   homePersistDir = "${persistDir}${homeDir}";
   homeSopsAgeDir = "${homePersistDir}/.config/sops/age";
+
+  secretsPath = builtins.toString inputs.my-secrets;
 
   user = {
     name = "aquastias";
@@ -66,6 +68,18 @@ in {
           userName = user.name;
         };
 
+        ssh = {
+          matchBlocks = {
+            "identity_${user.name}" = {
+              host = "github.com";
+              identitiesOnly = true;
+              identityFile = [
+                "~/.ssh/id_${user.name}"
+              ];
+            };
+          };
+        };
+
         vscode = {
           enable = true;
         };
@@ -78,7 +92,7 @@ in {
     age = {
       keyFile = "${homeSopsAgeDir}/keys.txt";
     };
-    defaultSopsFile = secrets.path;
+    defaultSopsFile = "${secretsPath}/secrets.yaml";
     secrets = {
       # Decrypt user password to /run/secrets-for-users
       # so it can be used to its creation
@@ -89,7 +103,7 @@ in {
         mode = "0600";
         owner = "${user.name}";
         path = "${homePersistDir}/.ssh/id_${user.name}";
-        sopsFile = secrets.path;
+        sopsFile = "${secretsPath}/secrets.yaml";
       };
     };
     validateSopsFiles = false;

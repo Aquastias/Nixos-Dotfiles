@@ -39,9 +39,6 @@
     };
   };
   persistDir = "/persist";
-  secrets = {
-    path = ../secrets.yaml;
-  };
   sshDir = "/persist/system/etc/ssh";
   system = "x86_64-linux";
   version = "24.11";

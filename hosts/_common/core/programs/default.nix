@@ -4,5 +4,6 @@
     ./fuse
     ./gnupg
     ./mtr
+    ./ssh
   ];
 }

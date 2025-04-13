@@ -37,6 +37,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    my-secrets = {
+      url = "git+ssh://git@github.com/Aquastias/Nixos-Secrets.git?ref=main&shallow=1";
+      flake = false;
+    };
   };
 
   outputs = {

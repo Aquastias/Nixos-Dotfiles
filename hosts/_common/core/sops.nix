@@ -1,9 +1,15 @@
-{configVars, ...}: let
-  inherit (configVars) disko persistDir secrets sshDir;
+{
+  configVars,
+  inputs,
+  ...
+}: let
+  inherit (configVars) disko persistDir sshDir;
   inherit (disko) systemDir;
+
+  secretsPath = builtins.toString inputs.my-secrets;
 in {
   sops = {
-    defaultSopsFile = secrets.path;
+    defaultSopsFile = "${secretsPath}/secrets.yaml";
     gnupg.sshKeyPaths = [];
     validateSopsFiles = false;
 

@@ -6,6 +6,7 @@ in {
     # Core stuff
     "${core.programs.path}/git"
     "${core.programs.path}/firefox"
+    "${core.programs.path}/ssh"
 
     # Optional stuff
     "${optional.programs.path}/vscode"
