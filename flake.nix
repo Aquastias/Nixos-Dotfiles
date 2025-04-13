@@ -39,7 +39,7 @@
     };
 
     my-secrets = {
-      url = "git+ssh://git@github.com/Aquastias/Nixos-Secrets.git?ref=main&shallow=1";
+      url = "github:Aquastias/Nixos-Secrets/main";
       flake = false;
     };
   };
