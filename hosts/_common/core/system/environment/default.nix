@@ -18,6 +18,7 @@ in {
           "/var/log"
           "/var/lib/bluetooth"
           "/var/lib/nixos"
+          "/var/lib/sops-nix"
           "/var/lib/systemd/coredump"
           {
             directory = "/var/lib/colord";
