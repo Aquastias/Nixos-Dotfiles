@@ -9,6 +9,7 @@ chmod +x ./run-disko.sh && ./run-disko.sh
 
 rm -rf /mnt/persist/nixos
 git clone https://github.com/Aquastias/Nixos-Dotfiles.git --depth=1 /mnt/persist/nixos
-cp ../../../keys.txt /mnt/persist/nixos
-chmod 0400 /mnt/persist/nixos/keys.txt
+mkdir -p /mnt/persist/sops-nix/age
+cp ../../../keys.txt /mnt/persist/sops-nix/age
+chmod 0400 /mnt/persist/sops-nix/age/keys.txt
 nixos-install --root /mnt --flake /mnt/persist/nixos#vanguard
