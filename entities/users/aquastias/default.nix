@@ -13,7 +13,7 @@
 
   user = {
     name = "aquastias";
-    email = config.sops.secrets."${user.name}-email".path;
+    # email = config.sops.secrets."${user.name}-email".path;
   };
 in {
   home-manager = {
@@ -57,7 +57,7 @@ in {
 
       programs = {
         git = {
-          userEmail = user.email;
+          # userEmail = user.email;
           userName = user.name;
         };
 
