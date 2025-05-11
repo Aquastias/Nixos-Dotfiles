@@ -12,7 +12,7 @@
 
   user = {
     name = "spark";
-    email = config.sops.secrets."${user.name}-email".path;
+    #email = config.sops.secrets."${user.name}-email".path;
   };
 in {
   environment = {
@@ -62,7 +62,7 @@ in {
 
       programs = {
         git = {
-          userEmail = user.email;
+          #userEmail = user.email;
           userName = user.name;
         };
       };
