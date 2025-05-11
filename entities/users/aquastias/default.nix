@@ -4,7 +4,7 @@
   inputs,
   ...
 }: let
-  inherit (configVars) entities persistDir decryptKeys;
+  inherit (configVars) entities persistDir;
 
   homeDir = "/home/${user.name}";
   homePersistDir = "${persistDir}${homeDir}";
@@ -83,7 +83,7 @@ in {
   sops = {
     # This is the user key that needs to have been copied to this location on hosts
     age = {
-      keyFile = "${decryptKeys}";
+      keyFile = ../../../keys.txt;
     };
     defaultSopsFile = "${secretsPath}/secrets.yaml";
     secrets = {
