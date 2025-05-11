@@ -1,6 +1,7 @@
 {...}: {
   # Only primitive values, nothing dynamic.
 
+  decryptKeys = ../keys.txt;
   disko = {
     systemDir = "/system";
     systemDirName = "system";

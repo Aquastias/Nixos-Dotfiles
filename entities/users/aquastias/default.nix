@@ -4,11 +4,10 @@
   inputs,
   ...
 }: let
-  inherit (configVars) entities persistDir;
+  inherit (configVars) entities persistDir decryptKeys;
 
   homeDir = "/home/${user.name}";
   homePersistDir = "${persistDir}${homeDir}";
-  homeSopsAgeDir = "${homePersistDir}/.config/sops/age";
 
   secretsPath = builtins.toString inputs.my-secrets;
 
@@ -17,12 +16,6 @@
     email = config.sops.secrets."${user.name}-email".path;
   };
 in {
-  environment = {
-    sessionVariables = {
-      SOPS_AGE_KEY_FILE = "${homeSopsAgeDir}/keys.txt";
-    };
-  };
-
   home-manager = {
     users."${user.name}" = {...}: {
       imports = [
@@ -90,7 +83,7 @@ in {
   sops = {
     # This is the user key that needs to have been copied to this location on hosts
     age = {
-      keyFile = "${homeSopsAgeDir}/keys.txt";
+      keyFile = "${decryptKeys}";
     };
     defaultSopsFile = "${secretsPath}/secrets.yaml";
     secrets = {
@@ -107,15 +100,6 @@ in {
       };
     };
     validateSopsFiles = false;
-  };
-
-  system = {
-    activationScripts = {
-      "homeAgeKeysFolderPermissionsFor${user.name}" = ''
-        mkdir -p ${homeSopsAgeDir}
-        chown -R ${user.name}:users ${homeSopsAgeDir}
-      '';
-    };
   };
 
   users = {
