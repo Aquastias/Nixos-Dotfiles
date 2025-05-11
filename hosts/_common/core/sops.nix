@@ -3,7 +3,8 @@
   inputs,
   ...
 }: let
-  inherit (configVars) decryptKeys sshDir;
+  inherit (configVars) persistDir disko sshDir;
+  inherit (disko) systemDir;
 
   secretsPath = builtins.toString inputs.my-secrets;
 in {
@@ -14,7 +15,7 @@ in {
 
     age = {
       # This will use an age key that is already expected to be in the filesystem
-      keyFile = "${decryptKeys}";
+      keyFile = "${persistDir}${systemDir}/var/lib/sops-nix/key.txt";
       # Generate a new key if the key specified above does not exist
       generateKey = true;
       # Automatically import host SSH keys as age keys
