@@ -49,6 +49,7 @@
     disko,
     home-manager,
     impermanence,
+    my-secrets,
     nixpkgs,
     nur,
     self,
@@ -71,6 +72,7 @@
     extraSpecialArgs = {
       inherit configVars;
       inherit inputs;
+      inherit my-secrets;
       inherit nixpkgs;
       inherit nur;
       inherit outputs;
