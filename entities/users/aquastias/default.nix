@@ -83,7 +83,7 @@ in {
   sops = {
     # This is the user key that needs to have been copied to this location on hosts
     age = {
-      keyFile = /persist/sops-nix/age/keys.txt;
+      keyFile = "/persist/sops-nix/age/keys.txt";
     };
     defaultSopsFile = "${secretsPath}/secrets.yaml";
     secrets = {
