@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source ./check-root-privileges.sh
+source ./helpers/check-root-privileges.sh
 
 check_root_privileges
 
