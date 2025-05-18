@@ -12,6 +12,7 @@
   secretsPath = builtins.toString inputs.my-secrets;
 
   user = {
+    email = config.sops.secrets."${user.name}-email".path;
     name = "aquastias";
   };
 in {
@@ -56,7 +57,7 @@ in {
 
       programs = {
         git = {
-          # userEmail = config.sops.secrets."${user.name}-email".path;
+          userEmail = user.email;
           userName = user.name;
         };
 
@@ -89,6 +90,11 @@ in {
       # Decrypt user password to /run/secrets-for-users
       # so it can be used to its creation
       "${user.name}-password" = {
+        neededForUsers = true;
+      };
+      # Decrypt user email to /run/secrets-for-users
+      # so it can be used for programs that need it
+      "${user.name}-email" = {
         neededForUsers = true;
       };
       "private_keys/${user.name}" = {
