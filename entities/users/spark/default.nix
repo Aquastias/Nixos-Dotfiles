@@ -11,6 +11,7 @@
   homeSopsAgeDir = "${homePersistDir}/.config/sops/age";
 
   user = {
+    email = config.sops.secrets."${user.name}-email".path;
     name = "spark";
   };
 in {
@@ -78,6 +79,11 @@ in {
       # Decrypt user password to /run/secrets-for-users
       # so it can be used to its creation
       "${user.name}-password" = {
+        neededForUsers = true;
+      };
+      # Decrypt user email to /run/secrets-for-users
+      # so it can be used for programs that need it
+      "${user.name}-email" = {
         neededForUsers = true;
       };
       "private_keys/${user.name}" = {
