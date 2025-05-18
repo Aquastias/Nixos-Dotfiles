@@ -12,7 +12,7 @@
 
   user = {
     name = "spark";
-    #email = config.sops.secrets."${user.name}-email".path;
+    email = config.sops.secrets."${user.name}-email".path;
   };
 in {
   environment = {
@@ -62,7 +62,7 @@ in {
 
       programs = {
         git = {
-          #userEmail = user.email;
+          userEmail = user.email;
           userName = user.name;
         };
       };
@@ -81,12 +81,12 @@ in {
       "${user.name}-password" = {
         neededForUsers = true;
       };
-      # "private_keys/${user.name}" = {
-      #   mode = "0600";
-      #   owner = "${user.name}";
-      #   path = "${homePersistDir}/.ssh/id_${user.name}";
-      #   sopsFile = secrets.path;
-      # };
+      "private_keys/${user.name}" = {
+        mode = "0600";
+        owner = "${user.name}";
+        path = "${homePersistDir}/.ssh/id_${user.name}";
+        sopsFile = secrets.path;
+      };
     };
     validateSopsFiles = false;
   };
