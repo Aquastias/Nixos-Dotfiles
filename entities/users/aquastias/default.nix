@@ -56,7 +56,7 @@ in {
 
       programs = {
         git = {
-          userEmail = config.sops.secrets."${user.name}-email".path;
+          # userEmail = config.sops.secrets."${user.name}-email".path;
           userName = user.name;
         };
 
