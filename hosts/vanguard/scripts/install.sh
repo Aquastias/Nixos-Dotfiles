@@ -5,11 +5,14 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+# Setup disk layout and filesystems
 chmod +x ./run-disko.sh && ./run-disko.sh
 
-rm -rf /mnt/persist/nixos
-git clone https://github.com/Aquastias/Nixos-Dotfiles.git --depth=1 /mnt/persist/nixos
-mkdir -p /mnt/persist/sops-nix/age
-cp ../../../keys.txt /mnt/persist/sops-nix/age
-chmod 0400 /mnt/persist/sops-nix/age/keys.txt
-nixos-install --root /mnt --flake /mnt/persist/nixos#vanguard
+# Clone SSH from vault repository and move it to /root/.ssh
+chmod +x ./clone-ssh.sh && ./clone-ssh.sh
+
+# Clone SOPS keys and move the decrypted version to newly created sops directory under /persist
+chmod +x ./clone-sops.sh && ./clone-sops.sh
+
+# Run installation command for desired host
+chmod +x ./run-install.sh && ./run-install.sh
