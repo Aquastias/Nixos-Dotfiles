@@ -1,0 +1,29 @@
+{pkgs, ...}: {
+  programs.vscode.extensions = with pkgs.vscode-extensions; [
+    kamadorueda.alejandra
+    catppuccin.catppuccin-vsc
+    catppuccin.catppuccin-vsc-icons
+    dbaeumer.vscode-eslint
+    jbockle.jbockle-format-files
+    golang.go
+    mhutchie.git-graph
+    donjayamanne.githistory
+    eamodio.gitlens
+    vincaslt.highlight-matching-tag
+    wix.vscode-import-cost
+    sumneko.lua
+    yzhang.markdown-all-in-one
+    jnoortheen.nix-ide
+    tomoki1207.pdf
+    esbenp.prettier-vscode
+    alefragnani.project-manager
+    rust-lang.rust-analyzer
+    timonwong.shellcheck
+    streetsidesoftware.code-spell-checker
+    stylelint.vscode-stylelint
+    jock.svg
+    vscodevim.vim
+    redhat.vscode-yaml
+    ziglang.vscode-zig
+  ];
+}
