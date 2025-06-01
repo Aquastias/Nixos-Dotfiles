@@ -2,6 +2,7 @@
 
 - [ ] Prepare Git config for SSH
 - [ ] Add Git aliases
+- [ ] Make install scripts independent of host
 - [ ] Switch to KDE
 - [ ] Prepare config for Hyprland
 - [ ] Prepare config for Hyprbar
